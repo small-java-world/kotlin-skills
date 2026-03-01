@@ -1,0 +1,27 @@
+{
+  "summary": "Retry change combines structural migration and policy change, increasing regression risk.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-C003",
+      "evidence": "execute introduces new branching while policy semantics change simultaneously.",
+      "minimal_fix": "Split into two commits: first refactor to one policy interface, then apply retry behavior update.",
+      "verification": "Run old behavior baseline tests after refactor-only commit, then run policy delta tests."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-C004",
+      "evidence": "No explicit migration phase exists between RetryPolicyV1 and RetryPolicyV2.",
+      "minimal_fix": "Introduce a compatibility adapter that routes both versions behind one stable contract.",
+      "verification": "Add compatibility tests for existing and new retry scenarios during migration window."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-T001",
+      "evidence": "No test matrix is shown for status code and attempt combinations around 429 handling.",
+      "minimal_fix": "Create parameterized tests for 5xx and 429 edge attempts.",
+      "verification": "Execute retry policy parameterized test suite and compare expected outcomes."
+    }
+  ]
+}
+

@@ -1,0 +1,27 @@
+{
+  "summary": "Order cancellation has a wide side-effect footprint without staged safety controls.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-C001",
+      "evidence": "cancelOrder directly updates order state, inventory, billing refund, and notification in one method.",
+      "minimal_fix": "Introduce an orchestration layer with explicit steps and error handling boundaries per dependency.",
+      "verification": "Add integration tests that simulate each dependency failure and verify compensation behavior."
+    },
+    {
+      "severity": "high",
+      "rule_id": "CC-C003",
+      "evidence": "Behavior and coordination logic are tightly coupled, making partial rollback difficult.",
+      "minimal_fix": "Split operation into idempotent step functions and sequence them through a workflow coordinator.",
+      "verification": "Run step-level tests for retry and duplicate execution safety."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-T001",
+      "evidence": "No explicit tests cover side-effect ordering and failure cases.",
+      "minimal_fix": "Add integration tests for success, billing failure, and notification failure scenarios.",
+      "verification": "Execute cancellation integration suite and assert final persisted states."
+    }
+  ]
+}
+

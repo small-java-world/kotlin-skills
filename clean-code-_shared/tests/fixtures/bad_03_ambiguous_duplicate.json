@@ -1,0 +1,20 @@
+{
+  "summary": "Invalid sample: ambiguity and duplicate findings.",
+  "findings": [
+    {
+      "severity": "medium",
+      "rule_id": "CC-P001",
+      "evidence": "Service has somehow too many tiny wrappers around one repository call.",
+      "minimal_fix": "Maybe inline wrappers as needed.",
+      "verification": "Run unit tests."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-P001",
+      "evidence": "Service has somehow too many tiny wrappers around one repository call.",
+      "minimal_fix": "Inline wrappers and keep one direct call path.",
+      "verification": "Run unit tests for repository adapter."
+    }
+  ]
+}
+

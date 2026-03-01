@@ -1,0 +1,20 @@
+{
+  "summary": "Async processor relies on uncontrolled coroutine scope and timing, causing flaky tests.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-T002",
+      "evidence": "GlobalScope with delay-based completion creates timing-dependent assertions.",
+      "minimal_fix": "Inject CoroutineScope and dispatcher so tests can use a controlled test scheduler.",
+      "verification": "Add coroutine test scheduler-based tests without Thread.sleep or real delays."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-T003",
+      "evidence": "Asynchronous side effects are not bounded by explicit lifecycle ownership.",
+      "minimal_fix": "Use structured concurrency with caller-provided scope and explicit cancellation.",
+      "verification": "Run tests that assert no leaked jobs after processor completion."
+    }
+  ]
+}
+

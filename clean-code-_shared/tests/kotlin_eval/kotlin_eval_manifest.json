@@ -1,0 +1,219 @@
+{
+  "version": "1.0",
+  "domain": "kotlin-web-backend",
+  "case_count": 18,
+  "cases": [
+    {
+      "case_id": "KB001",
+      "category": "principles",
+      "difficulty": "intro",
+      "input_file": "cases/KB001/input_bad.kt",
+      "context_file": "cases/KB001/context.md",
+      "expected_file": "cases/KB001/expected_findings.json",
+      "source_refs": [
+        "ktorio/ktor",
+        "kotlinlang/coding-conventions"
+      ]
+    },
+    {
+      "case_id": "KB002",
+      "category": "principles",
+      "difficulty": "intro",
+      "input_file": "cases/KB002/input_bad.kt",
+      "context_file": "cases/KB002/context.md",
+      "expected_file": "cases/KB002/expected_findings.json",
+      "source_refs": [
+        "spring-petclinic/spring-petclinic-kotlin",
+        "kotlinlang/coding-conventions"
+      ]
+    },
+    {
+      "case_id": "KB003",
+      "category": "principles",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB003/input_bad.kt",
+      "context_file": "cases/KB003/context.md",
+      "expected_file": "cases/KB003/expected_findings.json",
+      "source_refs": [
+        "square/okhttp",
+        "detekt/style-rules"
+      ]
+    },
+    {
+      "case_id": "KB004",
+      "category": "principles",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB004/input_bad.kt",
+      "context_file": "cases/KB004/context.md",
+      "expected_file": "cases/KB004/expected_findings.json",
+      "source_refs": [
+        "square/okhttp",
+        "ktorio/ktor"
+      ]
+    },
+    {
+      "case_id": "KB005",
+      "category": "change_safety",
+      "difficulty": "intro",
+      "input_file": "cases/KB005/input_bad.kt",
+      "context_file": "cases/KB005/context.md",
+      "expected_file": "cases/KB005/expected_findings.json",
+      "source_refs": [
+        "spring-petclinic/spring-petclinic-kotlin",
+        "ktorio/ktor"
+      ]
+    },
+    {
+      "case_id": "KB006",
+      "category": "change_safety",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB006/input_bad.kt",
+      "context_file": "cases/KB006/context.md",
+      "expected_file": "cases/KB006/expected_findings.json",
+      "source_refs": [
+        "square/okhttp",
+        "detekt/style-rules"
+      ]
+    },
+    {
+      "case_id": "KB007",
+      "category": "change_safety",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB007/input_bad.kt",
+      "context_file": "cases/KB007/context.md",
+      "expected_file": "cases/KB007/expected_findings.json",
+      "source_refs": [
+        "ktorio/ktor",
+        "detekt/style-rules"
+      ]
+    },
+    {
+      "case_id": "KB008",
+      "category": "change_safety",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB008/input_bad.kt",
+      "context_file": "cases/KB008/context.md",
+      "expected_file": "cases/KB008/expected_findings.json",
+      "source_refs": [
+        "spring-petclinic/spring-petclinic-kotlin",
+        "square/okhttp"
+      ]
+    },
+    {
+      "case_id": "KB009",
+      "category": "testability",
+      "difficulty": "intro",
+      "input_file": "cases/KB009/input_bad.kt",
+      "context_file": "cases/KB009/context.md",
+      "expected_file": "cases/KB009/expected_findings.json",
+      "source_refs": [
+        "square/okhttp",
+        "kotlinlang/coding-conventions"
+      ]
+    },
+    {
+      "case_id": "KB010",
+      "category": "testability",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB010/input_bad.kt",
+      "context_file": "cases/KB010/context.md",
+      "expected_file": "cases/KB010/expected_findings.json",
+      "source_refs": [
+        "ktorio/ktor",
+        "spring-petclinic/spring-petclinic-kotlin"
+      ]
+    },
+    {
+      "case_id": "KB011",
+      "category": "testability",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB011/input_bad.kt",
+      "context_file": "cases/KB011/context.md",
+      "expected_file": "cases/KB011/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/coding-conventions",
+        "detekt/style-rules"
+      ]
+    },
+    {
+      "case_id": "KB012",
+      "category": "testability",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB012/input_bad.kt",
+      "context_file": "cases/KB012/context.md",
+      "expected_file": "cases/KB012/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/coding-conventions",
+        "spring-petclinic/spring-petclinic-kotlin"
+      ]
+    },
+    {
+      "case_id": "KB013",
+      "category": "principles",
+      "difficulty": "advanced",
+      "input_file": "cases/KB013/input_bad.kt",
+      "context_file": "cases/KB013/context.md",
+      "expected_file": "cases/KB013/expected_findings.json",
+      "source_refs": [
+        "ktorio/ktor",
+        "spring-petclinic/spring-petclinic-kotlin"
+      ]
+    },
+    {
+      "case_id": "KB014",
+      "category": "change_safety",
+      "difficulty": "advanced",
+      "input_file": "cases/KB014/input_bad.kt",
+      "context_file": "cases/KB014/context.md",
+      "expected_file": "cases/KB014/expected_findings.json",
+      "source_refs": [
+        "spring-petclinic/spring-petclinic-kotlin",
+        "square/okhttp"
+      ]
+    },
+    {
+      "case_id": "KB015",
+      "category": "principles",
+      "difficulty": "intro",
+      "input_file": "cases/KB015/input_bad.kt",
+      "context_file": "cases/KB015/context.md",
+      "expected_file": "cases/KB015/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/coding-conventions"
+      ]
+    },
+    {
+      "case_id": "KB016",
+      "category": "principles",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB016/input_bad.kt",
+      "context_file": "cases/KB016/context.md",
+      "expected_file": "cases/KB016/expected_findings.json",
+      "source_refs": [
+        "spring-petclinic/spring-petclinic-kotlin"
+      ]
+    },
+    {
+      "case_id": "KB017",
+      "category": "principles",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB017/input_bad.kt",
+      "context_file": "cases/KB017/context.md",
+      "expected_file": "cases/KB017/expected_findings.json",
+      "source_refs": [
+        "ktorio/ktor"
+      ]
+    },
+    {
+      "case_id": "KB018",
+      "category": "testability",
+      "difficulty": "intro",
+      "input_file": "cases/KB018/input_bad.kt",
+      "context_file": "cases/KB018/context.md",
+      "expected_file": "cases/KB018/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/coding-conventions"
+      ]
+    }
+  ]
+}
