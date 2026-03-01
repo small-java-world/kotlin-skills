@@ -1,0 +1,19 @@
+{
+  "summary": "GlobalScope used in companion object causes unscoped coroutine leak and prevents lifecycle-tied cancellation.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-K001",
+      "evidence": "`MetricsSyncService.companion.syncJob` uses GlobalScope.launch, binding the coroutine to process lifetime instead of the service lifecycle.",
+      "minimal_fix": "Inject a CoroutineScope into MetricsSyncService constructor; start the sync loop in an init block using the injected scope so it cancels when the scope is cancelled.",
+      "verification": "In a test, cancel the injected scope and assert via runBlocking that flush() is no longer called after cancellation."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-T005",
+      "evidence": "`MetricsSyncService` cannot be constructed in tests without triggering a real GlobalScope coroutine, making isolation impossible.",
+      "minimal_fix": "Replace GlobalScope with an injected CoroutineScope and pass TestCoroutineScope in tests to control execution.",
+      "verification": "Instantiate MetricsSyncService with TestScope; call advanceUntilIdle() and assert flush() was invoked exactly once."
+    }
+  ]
+}

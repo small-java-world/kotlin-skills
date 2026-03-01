@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "domain": "kotlin-web-backend",
-  "case_count": 24,
+  "case_count": 29,
   "cases": [
     {
       "case_id": "KB001",
@@ -180,8 +180,7 @@
       "expected_file": "cases/KB015/expected_findings.json",
       "source_refs": [
         "kotlinlang/coding-conventions"
-      ],
-      "allow_empty_findings": true
+      ]
     },
     {
       "case_id": "KB016",
@@ -285,6 +284,66 @@
       "source_refs": [
         "kotlinlang/coding-conventions",
         "detekt/style-rules"
+      ]
+    },
+    {
+      "case_id": "KB025",
+      "category": "kotlin",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB025/input_bad.kt",
+      "context_file": "cases/KB025/context.md",
+      "expected_file": "cases/KB025/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/coroutines",
+        "google/structured-concurrency"
+      ]
+    },
+    {
+      "case_id": "KB026",
+      "category": "kotlin",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB026/input_bad.kt",
+      "context_file": "cases/KB026/context.md",
+      "expected_file": "cases/KB026/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/flow",
+        "google/android-codelabs"
+      ]
+    },
+    {
+      "case_id": "KB027",
+      "category": "kotlin",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB027/input_bad.kt",
+      "context_file": "cases/KB027/context.md",
+      "expected_file": "cases/KB027/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/java-interop",
+        "jetbrains/kotlin-null-safety"
+      ]
+    },
+    {
+      "case_id": "KB028",
+      "category": "kotlin",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB028/input_bad.kt",
+      "context_file": "cases/KB028/context.md",
+      "expected_file": "cases/KB028/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/scope-functions",
+        "jetbrains/kotlin-idioms"
+      ]
+    },
+    {
+      "case_id": "KB029",
+      "category": "kotlin",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB029/input_bad.kt",
+      "context_file": "cases/KB029/context.md",
+      "expected_file": "cases/KB029/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/data-classes",
+        "kotlinlang/sealed-classes"
       ]
     }
   ]

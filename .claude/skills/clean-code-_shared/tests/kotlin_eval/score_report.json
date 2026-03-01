@@ -1,23 +1,29 @@
 {
   "summary": {
-    "case_count": 24,
+    "case_count": 29,
     "scored_cases": 24,
-    "missing_cases": []
+    "missing_cases": [
+      "KB025",
+      "KB026",
+      "KB027",
+      "KB028",
+      "KB029"
+    ]
   },
   "score": {
-    "total": 100.0,
-    "grade": "pass",
+    "total": 82.2,
+    "grade": "warning",
     "breakdown": {
-      "structure_40": 40.0,
-      "rule_f1_35": 35.0,
+      "structure_25": 20.69,
+      "rule_f1_35": 28.97,
       "severity_match_15": 15.0,
-      "actionability_10": 10.0
+      "actionability_25": 17.54
     },
     "raw": {
-      "rule_f1_avg": 1.0,
+      "rule_f1_avg": 0.828,
       "severity_hit": 62,
       "severity_total": 62,
-      "missing_cases": 0
+      "missing_cases": 5
     }
   },
   "cases": [
@@ -33,7 +39,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.9
     },
     {
       "case_id": "KB002",
@@ -47,7 +53,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.85
     },
     {
       "case_id": "KB003",
@@ -61,7 +67,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.7
     },
     {
       "case_id": "KB004",
@@ -75,7 +81,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.85
     },
     {
       "case_id": "KB005",
@@ -89,7 +95,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.7
     },
     {
       "case_id": "KB006",
@@ -103,7 +109,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.7
     },
     {
       "case_id": "KB007",
@@ -117,7 +123,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.7
     },
     {
       "case_id": "KB008",
@@ -131,7 +137,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.7
     },
     {
       "case_id": "KB009",
@@ -159,7 +165,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.8
     },
     {
       "case_id": "KB011",
@@ -173,7 +179,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.9
     },
     {
       "case_id": "KB012",
@@ -187,7 +193,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.7
     },
     {
       "case_id": "KB013",
@@ -215,7 +221,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.85
     },
     {
       "case_id": "KB015",
@@ -243,7 +249,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.85
     },
     {
       "case_id": "KB017",
@@ -299,7 +305,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.9
     },
     {
       "case_id": "KB021",
@@ -313,7 +319,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.85
     },
     {
       "case_id": "KB022",
@@ -327,7 +333,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.7
     },
     {
       "case_id": "KB023",
@@ -341,7 +347,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.85
     },
     {
       "case_id": "KB024",
@@ -355,7 +361,27 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 1.0
+      "actionability_case_score": 0.85
+    },
+    {
+      "case_id": "KB025",
+      "status": "missing_actual"
+    },
+    {
+      "case_id": "KB026",
+      "status": "missing_actual"
+    },
+    {
+      "case_id": "KB027",
+      "status": "missing_actual"
+    },
+    {
+      "case_id": "KB028",
+      "status": "missing_actual"
+    },
+    {
+      "case_id": "KB029",
+      "status": "missing_actual"
     }
   ]
 }

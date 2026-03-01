@@ -1,0 +1,19 @@
+{
+  "summary": "data class with var property used as map key allows post-insertion mutation that breaks lookup; data class inheritance creates asymmetric equals contract.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-K005",
+      "evidence": "`BaseEvent.id` is declared as `var`; `registerEvent` mutates `event.id` after inserting it as a Map key, making the original hashCode invalid and causing silent lookup failures in `eventCache`.",
+      "minimal_fix": "Change `var id: String` to `val id: String` in BaseEvent. If id is assigned post-construction, use copy(id = \"assigned-...\") and re-insert the new key into the map.",
+      "verification": "Add a test: insert BaseEvent into a map, mutate id, then look up the original key and assert it is found. Confirm the fix makes the assertion pass."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-P004",
+      "evidence": "`ClickEvent` inherits from `BaseEvent` (a data class); data class inheritance is prohibited by Kotlin and produces a compiler warning. The hierarchy should use a sealed class to model event variants safely.",
+      "minimal_fix": "Replace `data class BaseEvent` with `sealed class Event(val id: String, val type: String)` and make `ClickEvent` a data class that extends `Event` directly, removing the data-on-data inheritance.",
+      "verification": "Verify that `ClickEvent` and `BaseEvent` (now `Event`) compile without warnings. Run equality tests to confirm symmetric equals behavior between siblings."
+    }
+  ]
+}

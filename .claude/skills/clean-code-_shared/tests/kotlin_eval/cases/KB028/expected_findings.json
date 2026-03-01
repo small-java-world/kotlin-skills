@@ -1,0 +1,19 @@
+{
+  "summary": "Four-level scope function chain obscures receiver identity and mixes transformation with side effects in a single expression.",
+  "findings": [
+    {
+      "severity": "medium",
+      "rule_id": "CC-K004",
+      "evidence": "`RequestProcessor.process` chains let → run → also → let in one expression; `it` in the first let, `this` in run, and `it` in also refer to different objects, making the data flow opaque.",
+      "minimal_fix": "Break the chain into named intermediate variables: `val validated = request.validate()`, `val transformed = transform(validated)`, `logger.log(transformed)`, `return repo.save(transformed)`.",
+      "verification": "Run existing RequestProcessor unit tests and confirm output is identical; add a test asserting logger.log is called with the transformed payload."
+    },
+    {
+      "severity": "low",
+      "rule_id": "CC-P001",
+      "evidence": "Mixing `logger.log` (side effect) and `repo.save` (result-producing) inside the same scope function chain makes the intent of each step unclear.",
+      "minimal_fix": "Separate the side effect (logging) from the data transformation pipeline using explicit statements rather than also { }.",
+      "verification": "Run RequestProcessor unit tests and verify the refactored function reads as: validate → transform → log → save with no scope function nesting."
+    }
+  ]
+}

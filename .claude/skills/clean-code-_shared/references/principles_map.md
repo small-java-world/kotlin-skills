@@ -91,3 +91,58 @@
 1. Clock / Random / Dispatcher / Scope を注入して差し替え可能にする
 2. 時間待ちを scheduler 制御に置き換え、テストで `advanceUntilIdle` を使う
 3. 非決定境界を1か所に集約して単体テストでは fake 実装を使う
+
+## 構造化並行性違反 (`CC-K001`)
+- **意図**: coroutine の生存期間を呼び出し元スコープに紐付け、リークと例外の取りこぼしを防ぐ。
+- **スメル**:
+1. GlobalScope.launch / GlobalScope.async を本番コードで使用
+2. CoroutineScope を外部から渡さず内部で生成（スコープが漏れる）
+3. launch { } 内の例外を supervisorScope や CoroutineExceptionHandler で拾わず握りつぶしている
+- **最小修正パターン**:
+1. GlobalScope を注入された CoroutineScope（またはライフサイクルスコープ）に差し替える
+2. launch → async に切り替え await() で例外を伝搬させる
+3. 例外ハンドラを CoroutineScope の CoroutineExceptionHandler として登録する
+
+## Flow/Channel 誤用 (`CC-K002`)
+- **意図**: cold/hot の区別を明示し、状態の共有・購読の副作用を制御する。
+- **スメル**:
+1. flow {} (cold) を StateFlow/SharedFlow (hot) と混同して使用し、重複実行や状態消失が起きる
+2. SharedFlow の replay/extraBufferCapacity を 0 のまま使い、遅い購読者がイベントを取りこぼす
+3. collect {} ブロック内で外部状態を直接変更する副作用コード
+- **最小修正パターン**:
+1. 状態保持には StateFlow/MutableStateFlow、イベントバスには SharedFlow(replay=1+) を使い分ける
+2. replay と onBufferOverflow を意図に合わせて明示設定する
+3. collect 内の副作用を onEach / launchIn に移しフローを純粋に保つ
+
+## Null 安全性の境界漏れ (`CC-K003`)
+- **意図**: Kotlin の null 安全を Java/外部 API との境界で失わない。
+- **スメル**:
+1. Java ライブラリの戻り値をプラットフォーム型（!型）のまま受け取り、null チェックなしで使用
+2. lateinit var を null 安全の代替として濫用し、UninitializedPropertyAccessException のリスクを隠蔽
+3. !! 以外の形（as 強制キャスト、Java interop の暗黙型推論）で null 安全を突破している箇所
+- **最小修正パターン**:
+1. Java API の戻り値は ?: エルビス演算子か requireNotNull/checkNotNull で境界処理する
+2. lateinit は DI フレームワークが注入するフィールドのみに限定し、用途をコメントで明示する
+3. プラットフォーム型には明示的な nullable 型注釈（Type?）を付けて意図を文書化する
+
+## スコープ関数の過剰チェーン (`CC-K004`)
+- **意図**: let/run/apply/also/with の連鎖を最小限に抑え、可読性と debuggability を保つ。
+- **スメル**:
+1. 3つ以上のスコープ関数をチェーンして1式に詰め込んでいる
+2. it と this が混在し、内側スコープでどのレシーバを指しているか分からない
+3. スコープ関数でサイドエフェクトとデータ変換の両方を同時に行っている
+- **最小修正パターン**:
+1. チェーンを中間変数付きの逐次ステップに展開する（2ステップ以内に分割）
+2. 変換には let/run、設定には apply/also と用途を1種に絞る
+3. サイドエフェクトと変換を別の式に分離し、also を最後にまとめる
+
+## Data class 契約違反 (`CC-K005`)
+- **意図**: data class の equals/hashCode/copy の契約を保ち、予期しない比較・コピー動作を防ぐ。
+- **スメル**:
+1. data class のプロパティに var（ミュータブル）を使用し、コレクション格納後に値が変化する
+2. data class を継承して equals/hashCode が上書きされ、親子間の比較が非対称になる
+3. copy() で一部プロパティだけ変更した際、コンパニオンやバリデーションをバイパスしている
+- **最小修正パターン**:
+1. var を val に変更し、更新は copy() を使って新インスタンスを生成する
+2. data class の継承をやめ、sealed class / sealed interface で代替する
+3. ファクトリ関数（companion object.of()）でバリデーションを一元化し copy() を隠蔽する

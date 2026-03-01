@@ -1,0 +1,19 @@
+{
+  "summary": "SharedFlow with replay=0 silently drops events for late subscribers, defeating the purpose of sharing the hot flow.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-K002",
+      "evidence": "`OrderEventRepository.orderEvents` uses shareIn with replay=0 and SharingStarted.Eagerly; any subscriber that collects after initial emissions will receive no events.",
+      "minimal_fix": "Set replay=1 (or higher if multiple events must be replayed) so late subscribers receive the most recent state: shareIn(scope, SharingStarted.WhileSubscribed(5000), replay = 1).",
+      "verification": "Write a test that subscribes after the flow has emitted; assert the subscriber receives at least the last event using turbine or runBlocking { collect { ... } }."
+    },
+    {
+      "severity": "low",
+      "rule_id": "CC-P001",
+      "evidence": "The intermediate cold `fetchOrderEvents()` function adds an unnecessary layer; the shareIn wrapper could be applied directly, removing one indirection.",
+      "minimal_fix": "Inline the flow builder into the shareIn call or document why the cold source is kept separate.",
+      "verification": "Run existing OrderEventRepository tests and verify that removing the intermediate function does not change observable behavior."
+    }
+  ]
+}

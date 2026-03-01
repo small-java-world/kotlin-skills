@@ -93,9 +93,16 @@ def normalize_text(text: str) -> str:
     return re.sub(r"\s+", " ", text.strip().lower())
 
 
+def _tokenize(text: str) -> set[str]:
+    # ASCII identifiers + Japanese character blocks (hiragana/katakana/kanji)
+    ascii_tokens = set(re.findall(r"[a-z0-9_]+", normalize_text(text)))
+    ja_tokens = set(re.findall(r"[\u3040-\u309f\u30a0-\u30ff\u4e00-\u9fff]+", text))
+    return ascii_tokens | ja_tokens
+
+
 def evidence_similarity(left: str, right: str) -> float:
-    left_tokens = set(re.findall(r"[a-z0-9_]+", normalize_text(left)))
-    right_tokens = set(re.findall(r"[a-z0-9_]+", normalize_text(right)))
+    left_tokens = _tokenize(left)
+    right_tokens = _tokenize(right)
     if not left_tokens and not right_tokens:
         return 1.0
     if not left_tokens or not right_tokens:
@@ -136,18 +143,29 @@ def match_severity(expected_findings: list[ParsedFinding], actual_findings: list
     return hit, total
 
 
+CODE_IDENTIFIER_PATTERN = re.compile(r"`[^`]+`|[A-Z][a-z]+[A-Z][a-zA-Z0-9]*|[a-z][a-zA-Z0-9]*[A-Z][a-zA-Z0-9]+")
+
+
 def score_actionability(findings: list[ParsedFinding]) -> float:
     if not findings:
         return 0.0
-    good = 0
+    scores = []
     for f in findings:
         # S2: word-boundary action word check
         has_action = bool(
             ACTION_WORDS_PATTERN.search(f.minimal_fix) or ACTION_WORDS_PATTERN.search(f.verification)
         )
-        if f.minimal_fix.strip() and f.verification.strip() and has_action:
-            good += 1
-    return safe_ratio(good, len(findings))
+        if not (f.minimal_fix.strip() and f.verification.strip()):
+            scores.append(0.0)
+            continue
+        if not has_action:
+            scores.append(0.0)
+            continue
+        # Specificity bonus: action word + code identifier (backtick or CamelCase)
+        combined = f.minimal_fix + " " + f.verification
+        has_identifier = bool(CODE_IDENTIFIER_PATTERN.search(combined))
+        scores.append(1.0 if has_identifier else 0.7)
+    return safe_ratio(sum(scores), len(scores))
 
 
 def parse_expected_findings(raw_findings: list[dict[str, str]]) -> list[ParsedFinding]:
@@ -267,15 +285,15 @@ def main() -> int:
     missing_count = case_count - scored_cases
 
     # F2: All denominators use case_count so missing cases are penalized (scored as 0)
-    structure_points = 40.0 * safe_ratio(structure_score_sum, case_count)
+    structure_points = 25.0 * safe_ratio(structure_score_sum, case_count)
     rule_points = 35.0 * safe_ratio(rule_f1_sum, case_count)
-    action_points = 10.0 * safe_ratio(action_sum, case_count)
+    action_points = 25.0 * safe_ratio(action_sum, case_count)
 
     # S3: if no shared rules exist, exclude severity from total and rescale
     if severity_total == 0:
         severity_points = 0.0
         total = structure_points + rule_points + action_points
-        total = total * (100.0 / 85.0)  # rescale: 40+35+10=85 → 100
+        total = total * (100.0 / 85.0)  # rescale: 25+35+25=85 → 100
         severity_note = "severity_excluded_rescaled"
     else:
         severity_points = 15.0 * safe_ratio(severity_hit, severity_total)
@@ -293,10 +311,10 @@ def main() -> int:
             "total": round(total, 2),
             "grade": grade,
             "breakdown": {
-                "structure_40": round(structure_points, 2),
+                "structure_25": round(structure_points, 2),
                 "rule_f1_35": round(rule_points, 2),
                 "severity_match_15": round(severity_points if severity_total > 0 else 0.0, 2),
-                "actionability_10": round(action_points, 2),
+                "actionability_25": round(action_points, 2),
             },
             "raw": {
                 "rule_f1_avg": round(safe_ratio(rule_f1_sum, case_count), 3),

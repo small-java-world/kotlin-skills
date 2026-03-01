@@ -16,6 +16,11 @@ description: Kotlin/Gradle（Spring Boot Kotlin含む）のコードレビュー
 - `CC-P004` SRP: 変更される理由が異なるものを分離する。
 - `CC-P005` CQS: 状態変更と情報クエリを分割する（実用的な範囲で）。
 - `CC-P006` Naming: ドメイン語彙と命名の一貫性を保つ。
+- `CC-K001` 構造化並行性違反: GlobalScope使用、例外伝搬漏れ。
+- `CC-K002` Flow/Channel 誤用: cold/hot混同、collect内副作用。
+- `CC-K003` Null安全性境界漏れ: Platform type、lateinit濫用。
+- `CC-K004` スコープ関数過剰チェーン: let/run/apply/also/with の3段以上チェーン。
+- `CC-K005` Data class 契約違反: var混入、継承との組み合わせ。
 
 ## 手順
 1. 意図と現在の制約を把握する。

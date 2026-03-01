@@ -1,0 +1,19 @@
+{
+  "summary": "Java platform type used without null boundary handling; !! operator and unchecked access risk NullPointerException at runtime.",
+  "findings": [
+    {
+      "severity": "critical",
+      "rule_id": "CC-K003",
+      "evidence": "`UserNotificationService.sendWelcomeEmail` uses `!!` on `javaClient.getUserEmail()` return value without null guard; if the Java side returns null, this throws NullPointerException.",
+      "minimal_fix": "Replace `email!!.substringAfter(\"@\")` with `val domain = email ?: return` or `requireNotNull(email) { \"email must not be null for userId=$userId\" }.substringAfter(\"@\")` to enforce the null contract explicitly at the boundary.",
+      "verification": "Add a unit test where javaClient returns null and assert that sendWelcomeEmail returns/throws with a meaningful message rather than NPE."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-P001",
+      "evidence": "`UserNotificationService.getUserInitials` calls `email.substring(0, 2)` without null check; the missing boundary guard is a separate access point that also risks NPE.",
+      "minimal_fix": "Add `?: return \"\"` or `?: throw IllegalStateException(\"no email for $userId\")` immediately after the platform-type call to establish a single null boundary.",
+      "verification": "Run unit tests with null email input for getUserInitials and assert no NPE is thrown."
+    }
+  ]
+}

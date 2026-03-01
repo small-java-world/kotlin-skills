@@ -29,13 +29,14 @@ AMBIGUOUS_TERMS = {
     "いい感じ",
 }
 # L1: Valid rule_id pattern
-RULE_ID_PATTERN = re.compile(r"^CC-[PCT]\d{3}$")
+RULE_ID_PATTERN = re.compile(r"^CC-[PCTK]\d{3}$")
 
-# F4: Exhaustive allowlist of defined rules (15 rules)
+# F4: Exhaustive allowlist of defined rules (20 rules)
 VALID_RULE_IDS = {
     "CC-P001", "CC-P002", "CC-P003", "CC-P004", "CC-P005", "CC-P006",
     "CC-C001", "CC-C002", "CC-C003", "CC-C004",
     "CC-T001", "CC-T002", "CC-T003", "CC-T004", "CC-T005",
+    "CC-K001", "CC-K002", "CC-K003", "CC-K004", "CC-K005",
 }
 
 # L5: ACTION_WORDS for verification executability check (word-boundary safe via \b)
@@ -216,7 +217,7 @@ def lint_findings(
             errors.append(f"{prefix}: missing rule_id")
         elif not RULE_ID_PATTERN.match(f.rule_id):
             errors.append(
-                f"{prefix}: invalid rule_id format '{f.rule_id}' (expected CC-[PCT]NNN)"
+                f"{prefix}: invalid rule_id format '{f.rule_id}' (expected CC-[PCTK]NNN)"
             )
         elif f.rule_id not in VALID_RULE_IDS:
             errors.append(
