@@ -8,7 +8,6 @@ $ErrorActionPreference = "Stop"
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 $sourceRoot = Join-Path $repoRoot ".claude\skills"
 $targets = @(
-    (Join-Path $repoRoot "claude-skills"),
     $repoRoot
 )
 
