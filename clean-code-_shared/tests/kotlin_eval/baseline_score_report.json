@@ -1,7 +1,7 @@
 {
   "summary": {
-    "case_count": 18,
-    "scored_cases": 18,
+    "case_count": 24,
+    "scored_cases": 24,
     "missing_cases": []
   },
   "score": {
@@ -15,8 +15,8 @@
     },
     "raw": {
       "rule_f1_avg": 1.0,
-      "severity_hit": 43,
-      "severity_total": 43,
+      "severity_hit": 62,
+      "severity_total": 62,
       "missing_cases": 0
     }
   },
@@ -284,6 +284,96 @@
       "structure_case_score": 1.0,
       "expected_rule_count": 4,
       "actual_rule_count": 4,
+      "rule_f1_detail": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "actionability_case_score": 1.0
+    },
+    {
+      "case_id": "KB019",
+      "status": "scored",
+      "actual_file": "clean-code-_shared\\tests\\kotlin_eval\\baseline_actual\\KB019.json",
+      "lint_code": 0,
+      "structure_case_score": 1.0,
+      "expected_rule_count": 2,
+      "actual_rule_count": 2,
+      "rule_f1_detail": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "actionability_case_score": 1.0
+    },
+    {
+      "case_id": "KB020",
+      "status": "scored",
+      "actual_file": "clean-code-_shared\\tests\\kotlin_eval\\baseline_actual\\KB020.json",
+      "lint_code": 0,
+      "structure_case_score": 1.0,
+      "expected_rule_count": 3,
+      "actual_rule_count": 3,
+      "rule_f1_detail": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "actionability_case_score": 1.0
+    },
+    {
+      "case_id": "KB021",
+      "status": "scored",
+      "actual_file": "clean-code-_shared\\tests\\kotlin_eval\\baseline_actual\\KB021.json",
+      "lint_code": 0,
+      "structure_case_score": 1.0,
+      "expected_rule_count": 2,
+      "actual_rule_count": 2,
+      "rule_f1_detail": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "actionability_case_score": 1.0
+    },
+    {
+      "case_id": "KB022",
+      "status": "scored",
+      "actual_file": "clean-code-_shared\\tests\\kotlin_eval\\baseline_actual\\KB022.json",
+      "lint_code": 0,
+      "structure_case_score": 1.0,
+      "expected_rule_count": 3,
+      "actual_rule_count": 3,
+      "rule_f1_detail": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "actionability_case_score": 1.0
+    },
+    {
+      "case_id": "KB023",
+      "status": "scored",
+      "actual_file": "clean-code-_shared\\tests\\kotlin_eval\\baseline_actual\\KB023.json",
+      "lint_code": 0,
+      "structure_case_score": 1.0,
+      "expected_rule_count": 2,
+      "actual_rule_count": 2,
+      "rule_f1_detail": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "actionability_case_score": 1.0
+    },
+    {
+      "case_id": "KB024",
+      "status": "scored",
+      "actual_file": "clean-code-_shared\\tests\\kotlin_eval\\baseline_actual\\KB024.json",
+      "lint_code": 0,
+      "structure_case_score": 1.0,
+      "expected_rule_count": 2,
+      "actual_rule_count": 2,
       "rule_f1_detail": {
         "precision": 1.0,
         "recall": 1.0,

@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "domain": "kotlin-web-backend",
-  "case_count": 18,
+  "case_count": 24,
   "cases": [
     {
       "case_id": "KB001",
@@ -213,6 +213,77 @@
       "expected_file": "cases/KB018/expected_findings.json",
       "source_refs": [
         "kotlinlang/coding-conventions"
+      ]
+    },
+    {
+      "case_id": "KB019",
+      "category": "testability",
+      "difficulty": "intro",
+      "input_file": "cases/KB019/input_bad.kt",
+      "context_file": "cases/KB019/context.md",
+      "expected_file": "cases/KB019/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/coding-conventions",
+        "detekt/style-rules"
+      ]
+    },
+    {
+      "case_id": "KB020",
+      "category": "testability",
+      "difficulty": "advanced",
+      "input_file": "cases/KB020/input_bad.kt",
+      "context_file": "cases/KB020/context.md",
+      "expected_file": "cases/KB020/expected_findings.json",
+      "source_refs": [
+        "ktorio/ktor",
+        "kotlinlang/coding-conventions"
+      ]
+    },
+    {
+      "case_id": "KB021",
+      "category": "principles",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB021/input_bad.kt",
+      "context_file": "cases/KB021/context.md",
+      "expected_file": "cases/KB021/expected_findings.json",
+      "source_refs": [
+        "spring-petclinic/spring-petclinic-kotlin",
+        "kotlinlang/coding-conventions"
+      ]
+    },
+    {
+      "case_id": "KB022",
+      "category": "change_safety",
+      "difficulty": "advanced",
+      "input_file": "cases/KB022/input_bad.kt",
+      "context_file": "cases/KB022/context.md",
+      "expected_file": "cases/KB022/expected_findings.json",
+      "source_refs": [
+        "spring-petclinic/spring-petclinic-kotlin",
+        "square/okhttp"
+      ]
+    },
+    {
+      "case_id": "KB023",
+      "category": "principles",
+      "difficulty": "intro",
+      "input_file": "cases/KB023/input_bad.kt",
+      "context_file": "cases/KB023/context.md",
+      "expected_file": "cases/KB023/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/coding-conventions"
+      ]
+    },
+    {
+      "case_id": "KB024",
+      "category": "testability",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB024/input_bad.kt",
+      "context_file": "cases/KB024/context.md",
+      "expected_file": "cases/KB024/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/coding-conventions",
+        "detekt/style-rules"
       ]
     }
   ]
