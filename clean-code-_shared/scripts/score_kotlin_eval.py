@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import collections
 import importlib.util
 import json
 import pathlib
@@ -76,15 +77,63 @@ def score_rule_f1(expected_rules: list[str], actual_rules: list[str]) -> tuple[f
         precision = 1.0 if not actual_rules else 0.0
         return precision, {"precision": precision, "recall": 1.0, "f1": precision}
 
-    expected_set = set(expected_rules)
-    actual_set = set(actual_rules)
+    # Use multiset matching so repeated rules in one case are scored correctly.
+    expected_counts = collections.Counter(expected_rules)
+    actual_counts = collections.Counter(actual_rules)
 
-    tp = len(expected_set & actual_set)
-    precision = safe_ratio(tp, len(actual_set))
-    recall = safe_ratio(tp, len(expected_set))
+    tp = sum(min(expected_counts[rid], actual_counts[rid]) for rid in expected_counts)
+    precision = safe_ratio(tp, len(actual_rules))
+    recall = safe_ratio(tp, len(expected_rules))
     f1 = safe_ratio(2 * precision * recall, precision + recall)
 
     return f1, {"precision": round(precision, 3), "recall": round(recall, 3), "f1": round(f1, 3)}
+
+
+def normalize_text(text: str) -> str:
+    return re.sub(r"\s+", " ", text.strip().lower())
+
+
+def evidence_similarity(left: str, right: str) -> float:
+    left_tokens = set(re.findall(r"[a-z0-9_]+", normalize_text(left)))
+    right_tokens = set(re.findall(r"[a-z0-9_]+", normalize_text(right)))
+    if not left_tokens and not right_tokens:
+        return 1.0
+    if not left_tokens or not right_tokens:
+        return 0.0
+    intersection = len(left_tokens & right_tokens)
+    union = len(left_tokens | right_tokens)
+    return safe_ratio(intersection, union)
+
+
+def match_severity(expected_findings: list[ParsedFinding], actual_findings: list[ParsedFinding]) -> tuple[int, int]:
+    """Align expected/actual findings by rule_id + evidence similarity (greedy one-to-one)."""
+    unmatched_actual = list(range(len(actual_findings)))
+    hit = 0
+    total = 0
+
+    for expected in expected_findings:
+        candidates: list[tuple[float, int]] = []
+        for idx in unmatched_actual:
+            actual = actual_findings[idx]
+            if actual.rule_id != expected.rule_id:
+                continue
+            score = evidence_similarity(expected.evidence, actual.evidence)
+            candidates.append((score, idx))
+        if not candidates:
+            continue
+
+        candidates.sort(reverse=True)
+        best_score, best_idx = candidates[0]
+        # Accept low-overlap matches only when there is one obvious candidate.
+        if best_score < 0.15 and len(candidates) > 1:
+            continue
+
+        unmatched_actual.remove(best_idx)
+        total += 1
+        if actual_findings[best_idx].severity == expected.severity:
+            hit += 1
+
+    return hit, total
 
 
 def score_actionability(findings: list[ParsedFinding]) -> float:
@@ -99,6 +148,21 @@ def score_actionability(findings: list[ParsedFinding]) -> float:
         if f.minimal_fix.strip() and f.verification.strip() and has_action:
             good += 1
     return safe_ratio(good, len(findings))
+
+
+def parse_expected_findings(raw_findings: list[dict[str, str]]) -> list[ParsedFinding]:
+    parsed: list[ParsedFinding] = []
+    for finding in raw_findings:
+        parsed.append(
+            ParsedFinding(
+                severity=str(finding.get("severity", "")).strip(),
+                rule_id=str(finding.get("rule_id", "")).strip(),
+                evidence=str(finding.get("evidence", "")).strip(),
+                minimal_fix=str(finding.get("minimal_fix", "")).strip(),
+                verification=str(finding.get("verification", "")).strip(),
+            )
+        )
+    return parsed
 
 
 def main() -> int:
@@ -145,7 +209,8 @@ def main() -> int:
             action_cases += 1
             continue
 
-        expected_findings = json.loads(expected_path.read_text(encoding="utf-8")).get("findings", [])
+        expected_findings_raw = json.loads(expected_path.read_text(encoding="utf-8")).get("findings", [])
+        expected_findings = parse_expected_findings(expected_findings_raw)
         allow_empty = case.get("allow_empty_findings", False) or len(expected_findings) == 0
 
         lint_cmd = [sys.executable, str(lint_script), "--input", str(actual_path), "--profile", "clean-code"]
@@ -163,7 +228,7 @@ def main() -> int:
 
         actual_findings = load_findings_via_lint(lint_module, actual_path)
 
-        expected_rules = [f.get("rule_id", "") for f in expected_findings if f.get("rule_id")]
+        expected_rules = [f.rule_id for f in expected_findings if f.rule_id]
         actual_rules = [f.rule_id for f in actual_findings if f.rule_id]
 
         # S1: F1-based rule matching
@@ -171,19 +236,13 @@ def main() -> int:
         rule_f1_sum += rule_f1
         rule_cases += 1
 
-        # Severity match on shared (expected) rules only
-        expected_severity_map = {
-            f.get("rule_id", ""): f.get("severity", "")
-            for f in expected_findings
-            if f.get("rule_id") and f.get("severity")
-        }
-        actual_severity_map = {f.rule_id: f.severity for f in actual_findings if f.rule_id and f.severity}
-        shared_rules = [rid for rid in expected_severity_map if rid in actual_severity_map]
-        severity_total += len(shared_rules)
-        severity_hit += sum(1 for rid in shared_rules if expected_severity_map[rid] == actual_severity_map[rid])
+        # Severity match on aligned findings (rule_id + evidence similarity).
+        case_hit, case_total = match_severity(expected_findings, actual_findings)
+        severity_total += case_total
+        severity_hit += case_hit
 
         # Empty expected + empty actual = perfect actionability (no false positives)
-        if not expected_findings and not actual_findings:
+        if not expected_findings_raw and not actual_findings:
             action_case = 1.0
         else:
             action_case = score_actionability(actual_findings)
