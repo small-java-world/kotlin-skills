@@ -1,6 +1,6 @@
 ---
 name: clean-code-testability-optimizer
-description: 最小限かつシグナルの高い自動テスト（単体/結合/E2E）を設計してコード変更を安全にし、テスタビリティと回帰安全性を改善する。
+description: Kotlin/coroutines/Flow を含むコード変更に対し、最小限かつシグナルの高い自動テスト（単体/結合/E2E）を設計して回帰安全性を高め、非決定要素を境界化してテスタビリティを改善する。
 ---
 
 # Clean Code Testability Optimizer
@@ -14,6 +14,7 @@ description: 最小限かつシグナルの高い自動テスト（単体/結合
 - `CC-T002` テストが過度に広い・不安定・または遅い。
 - `CC-T003` テストしにくい密結合によりロジックのテストが困難。
 - `CC-T004` テスト名/アサーションが振る舞いを表現していない。
+- `CC-T005` 非決定要素（時刻・乱数・ディスパッチャ・遅延）が境界化されていない。
 
 ## 手順
 1. 変更された振る舞いとリスク境界を特定する。
@@ -26,8 +27,8 @@ description: 最小限かつシグナルの高い自動テスト（単体/結合
 
 ## 出力形式
 - 共有の出力コントラクトを使用すること:
-`D:\kotlinskills\clean-code-_shared/references/output_contract.md`
+`../clean-code-_shared/references/output_contract.md`
 
 ## 参照
-- `D:\kotlinskills\clean-code-_shared/references/principles_map.md`
-- `D:\kotlinskills\clean-code-_shared/references/anti_patterns.md`
+- `../clean-code-_shared/references/principles_map.md`
+- `../clean-code-_shared/references/anti_patterns.md`

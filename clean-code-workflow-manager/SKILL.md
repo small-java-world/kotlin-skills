@@ -1,6 +1,6 @@
 ---
 name: clean-code-workflow-manager
-description: 原則・変更安全性・テスタビリティの3専門エージェントにレビューを振り分け、根拠付きのfindings・最小修正・検証手順を統合出力するワークフローマネージャー。コードレビュー・リファクタリング診断・保守性改善依頼時に使う。
+description: Kotlin/Gradle（Spring Boot Kotlin・coroutines含む）のコードレビューを、原則・変更安全性・テスタビリティの3専門エージェントに振り分け、根拠付き findings と最小修正・検証手順を統合出力するワークフローマネージャー。
 ---
 
 # Clean Code Workflow Manager
@@ -29,8 +29,8 @@ description: 原則・変更安全性・テスタビリティの3専門エージ
   5. `verification`
 
 See:
-- `D:\kotlinskills\clean-code-_shared/references/output_contract.md`
-- `D:\kotlinskills\clean-code-_shared/references/extraction_notes.md`
+- `../clean-code-_shared/references/output_contract.md`
+- `../clean-code-_shared/references/extraction_notes.md`
 
 ## Workflow
 
@@ -44,7 +44,7 @@ See:
 
 ### Step 2: Principles Pass
 - Invoke `clean-code-principles-architect` with the scoped input.
-- Rules: CC-P001 (KISS), CC-P002 (YAGNI), CC-P003 (DRY), CC-P004 (SRP), CC-P005 (CQS).
+- Rules: CC-P001 (KISS), CC-P002 (YAGNI), CC-P003 (DRY), CC-P004 (SRP), CC-P005 (CQS), CC-P006 (Naming).
 
 ### Step 3: Change-Safety Pass
 - Invoke `clean-code-change-safety-reviewer` with the scoped input.
@@ -55,7 +55,7 @@ See:
 
 ### Step 4: Testability Pass
 - Invoke `clean-code-testability-optimizer` with the scoped input.
-- Rules: CC-T001–CC-T004.
+- Rules: CC-T001–CC-T005.
 - Same independence rule as Step 3 applies.
 
 ### Step 5: Synthesis (親が実施)
@@ -73,7 +73,7 @@ See:
 ### Output Quality Check (親が実施)
 - After synthesis, run the lint tool on the output before returning to the user:
 ```powershell
-python D:\kotlinskills\clean-code-_shared\scripts\skill_output_lint.py `
+python ../clean-code-_shared/scripts/skill_output_lint.py `
   --input <output-file> `
   --profile clean-code
 ```
@@ -90,7 +90,7 @@ python D:\kotlinskills\clean-code-_shared\scripts\skill_output_lint.py `
 ## Validation
 - Lint generated output:
 ```powershell
-python D:\kotlinskills\clean-code-_shared\scripts\skill_output_lint.py `
+python ../clean-code-_shared/scripts/skill_output_lint.py `
   --input <output-file> `
   --profile clean-code
 ```
@@ -103,21 +103,21 @@ Exit codes:
 ## Kotlin evaluation corpus
 - Build manifest:
 ```powershell
-python D:\kotlinskills\clean-code-_shared\scripts\build_kotlin_eval_manifest.py
+python ../clean-code-_shared/scripts/build_kotlin_eval_manifest.py
 ```
 - Run corpus self-test:
 ```powershell
-python D:\kotlinskills\clean-code-_shared\scripts\run_kotlin_eval_tests.py --self-test
+python ../clean-code-_shared/scripts/run_kotlin_eval_tests.py --self-test
 ```
 - Score real outputs:
 ```powershell
-python D:\kotlinskills\clean-code-_shared\scripts\score_kotlin_eval.py `
-  --manifest D:\kotlinskills\clean-code-_shared\tests\kotlin_eval\kotlin_eval_manifest.json `
+python ../clean-code-_shared/scripts/score_kotlin_eval.py `
+  --manifest ../clean-code-_shared/tests/kotlin_eval/kotlin_eval_manifest.json `
   --actual-dir <dir-containing-KBxxx-json-or-md> `
-  --out D:\kotlinskills\clean-code-_shared\tests\kotlin_eval\score_report.json
+  --out ../clean-code-_shared/tests/kotlin_eval/score_report.json
 ```
 
 ## Related subskills
-- `D:\kotlinskills\clean-code-principles-architect\SKILL.md`
-- `D:\kotlinskills\clean-code-change-safety-reviewer\SKILL.md`
-- `D:\kotlinskills\clean-code-testability-optimizer\SKILL.md`
+- `../clean-code-principles-architect/SKILL.md`
+- `../clean-code-change-safety-reviewer/SKILL.md`
+- `../clean-code-testability-optimizer/SKILL.md`

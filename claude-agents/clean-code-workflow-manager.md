@@ -1,6 +1,6 @@
 ---
 name: clean-code-workflow-manager
-description: コードやPR diffのクリーンコードレビューを3専門エージェント（原則・変更安全性・テスタビリティ）に振り分け、根拠付きのfindings・最小修正・検証手順を統合出力するワークフローマネージャー。コードレビュー・リファクタリング診断・保守性改善依頼時に使う。
+description: Kotlin/Gradle（Spring Boot Kotlin・coroutines含む）のコードやPR diffのクリーンコードレビューを3専門エージェント（原則・変更安全性・テスタビリティ）に振り分け、根拠付き findings・最小修正・検証手順を統合出力するワークフローマネージャー。
 tools: Read, Grep, Glob, Bash, Task
 model: inherit
 ---
