@@ -1,0 +1,19 @@
+{
+  "summary": "Token generation is non-deterministic because time and random are hard-coded in the method.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-T005",
+      "evidence": "issue calls Instant.now() and Random.nextInt() directly, forcing time/random-dependent assertions.",
+      "minimal_fix": "Inject Clock and Random (or a TokenEntropyProvider) so tests can use deterministic fake values.",
+      "verification": "Add unit tests with fixed clock/random and verify a stable token string is produced."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-T001",
+      "evidence": "No regression test boundary is defined for token format under deterministic inputs.",
+      "minimal_fix": "Add focused unit tests that assert the exact issued token format from known inputs.",
+      "verification": "Run tests that assert userId, timestamp, and entropy segments are stable and correctly ordered."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "summary": "Reduce speculative extension points.",
+  "findings": [
+    {
+      "severity": "medium",
+      "rule_id": "CC-P002",
+      "evidence": "PaymentStrategyFactory includes three strategy branches that are not used by any caller.",
+      "minimal_fix": "Keep the currently used strategy path and remove dormant strategy registrations.",
+      "verification": "Run payment unit tests and verify only active strategy dependency remains in imports."
+    },
+    {
+      "severity": "low",
+      "rule_id": "CC-C003",
+      "evidence": "Refactor and behavior change are mixed in one commit around retry policy.",
+      "minimal_fix": "Split into two commits: rename-only refactor first, policy behavior update second.",
+      "verification": "Compare test results and diff statistics separately for the two commits."
+    }
+  ]
+}
+

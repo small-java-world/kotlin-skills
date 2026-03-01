@@ -1,0 +1,27 @@
+{
+  "summary": "Behavior depends on mutable global flag, creating hidden coupling and rollout risk.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-C002",
+      "evidence": "InputNormalizer behavior depends on RuntimeFlags singleton set by AdminApi side effects.",
+      "minimal_fix": "Inject strict-mode policy as explicit dependency instead of reading global mutable state.",
+      "verification": "Add unit tests for normalizer with strict mode on/off through dependency injection."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-C001",
+      "evidence": "One flag toggle can affect multiple call sites unpredictably at runtime.",
+      "minimal_fix": "Scope flag changes to request/session context and avoid process-wide mutation.",
+      "verification": "Run integration tests for parallel requests and assert behavior isolation."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-T003",
+      "evidence": "Tests become order-dependent when shared global state is not reset reliably.",
+      "minimal_fix": "Remove global dependency and provide explicit test setup values per test case.",
+      "verification": "Execute test suite with random order and confirm deterministic results."
+    }
+  ]
+}
+

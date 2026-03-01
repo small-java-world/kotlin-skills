@@ -1,0 +1,13 @@
+{
+  "summary": "Invalid sample: missing evidence.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-P003",
+      "evidence": "",
+      "minimal_fix": "Extract duplicated validation rule into one helper.",
+      "verification": "Run validation tests for all entry points."
+    }
+  ]
+}
+

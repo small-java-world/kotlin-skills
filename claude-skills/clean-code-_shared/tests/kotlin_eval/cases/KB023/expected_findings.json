@@ -1,0 +1,19 @@
+{
+  "summary": "Null assertions and unclear naming create fragile and hard-to-maintain logic.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-P001",
+      "evidence": "x uses u!! and email!!, allowing runtime failures instead of explicit null boundary handling.",
+      "minimal_fix": "Replace non-null assertions with explicit null-safe branches or require non-null input at API boundary.",
+      "verification": "Add tests for null user/null email paths and verify deterministic error or fallback behavior."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-P006",
+      "evidence": "Method/parameter/local names x, u, and e hide intent and make null-boundary reasoning harder.",
+      "minimal_fix": "Rename to domain terms (e.g., extractDomain(user), user, email) and keep boundary checks explicit.",
+      "verification": "Run tests and code review checklist to confirm names communicate behavior and null expectations."
+    }
+  ]
+}

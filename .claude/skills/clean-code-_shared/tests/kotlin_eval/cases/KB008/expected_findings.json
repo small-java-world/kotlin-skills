@@ -1,0 +1,27 @@
+{
+  "summary": "Dual-read migration path lacks explicit compatibility and cleanup boundaries.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-C004",
+      "evidence": "Legacy and modern models are handled together without defined migration stage or removal trigger.",
+      "minimal_fix": "Define staged migration milestones: dual-write, verification window, legacy-read removal, and cleanup.",
+      "verification": "Add migration checkpoint tests validating display name parity before legacy removal."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-C001",
+      "evidence": "Display name logic spans multiple model versions, expanding change impact for simple updates.",
+      "minimal_fix": "Introduce one normalized user view model and map each schema version into it.",
+      "verification": "Run regression tests for legacy-only, modern-only, and mixed data inputs."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-T001",
+      "evidence": "No explicit compatibility tests are defined for migration edge states.",
+      "minimal_fix": "Add integration tests for migration boundary scenarios and fallback behavior.",
+      "verification": "Execute migration test matrix and confirm deterministic display output."
+    }
+  ]
+}
+
