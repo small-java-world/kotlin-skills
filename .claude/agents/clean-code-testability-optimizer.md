@@ -1,6 +1,6 @@
 ---
 name: clean-code-testability-optimizer
-description: Kotlin/coroutines/Flow を含むコードのテスタビリティと回帰安全性を診断し、最小限かつシグナルの高い単体/結合/E2E テストと非決定境界の改善案を提案するサブエージェント。clean-code-workflow-managerから呼び出される。
+description: clean-code-workflow-manager からテスタビリティチェックを委譲されたときに使用する専門エージェント。Kotlin/coroutines/Flow を含むコードの回帰安全性を診断し、最小限かつシグナルの高い単体/結合/E2E テストと非決定境界の改善案を提案する。直接呼び出しは非推奨。
 tools: Read, Grep, Glob, Bash
 model: inherit
 ---

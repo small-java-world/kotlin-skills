@@ -1,6 +1,6 @@
 ---
 name: clean-code-principles-architect
-description: Kotlin/Gradle（Spring Boot Kotlin含む）コードで KISS・YAGNI・DRY・SRP・CQS・Naming の原則違反を検出し、最小変更の修正案と検証手順を出力するサブエージェント。clean-code-workflow-manager から呼び出される。
+description: clean-code-workflow-manager から原則チェックを委譲されたときに使用する専門エージェント。Kotlin/Gradle（Spring Boot Kotlin含む）コードに対して KISS・YAGNI・DRY・SRP・CQS・Naming・CC-K001〜K005 の原則違反を検出し、最小変更の修正案と検証手順を出力する。直接呼び出しは非推奨。
 tools: Read, Grep, Glob, Bash
 model: inherit
 ---

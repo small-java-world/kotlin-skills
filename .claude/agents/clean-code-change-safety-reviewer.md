@@ -1,6 +1,6 @@
 ---
 name: clean-code-change-safety-reviewer
-description: Kotlin/Gradle（Spring Boot Kotlin含む）PRの結合度・影響範囲・マイグレーション戦略を分析し、変更安全性リスクと段階的な低リスク変更計画を提案するサブエージェント。clean-code-workflow-managerから呼び出される。
+description: clean-code-workflow-manager から変更安全性チェックを委譲されたときに使用する専門エージェント。Kotlin/Gradle（Spring Boot Kotlin含む）PRの結合度・影響範囲・マイグレーション戦略を分析し、変更安全性リスクと段階的な低リスク変更計画を提案する。直接呼び出しは非推奨。
 tools: Read, Grep, Glob, Bash
 model: inherit
 ---
