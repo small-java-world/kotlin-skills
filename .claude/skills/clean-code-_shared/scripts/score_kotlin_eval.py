@@ -253,7 +253,6 @@ def main() -> int:
             {
                 "case_id": case_id,
                 "status": "scored",
-                "actual_file": str(actual_path),
                 "lint_code": lint_code,
                 "structure_case_score": structure_case,
                 "expected_rule_count": len(expected_rules),

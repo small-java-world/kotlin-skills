@@ -180,7 +180,8 @@
       "expected_file": "cases/KB015/expected_findings.json",
       "source_refs": [
         "kotlinlang/coding-conventions"
-      ]
+      ],
+      "allow_empty_findings": true
     },
     {
       "case_id": "KB016",

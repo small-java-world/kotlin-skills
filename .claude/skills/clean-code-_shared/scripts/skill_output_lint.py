@@ -136,7 +136,7 @@ def _find_findings_section(text: str) -> str:
     match = header_pattern.search(text)
     if match:
         # Take text from the header to the next ## section (or end)
-        next_section = re.compile(r"(?im)^##\s+", re.MULTILINE)
+        next_section = re.compile(r"(?im)^##\s+")
         following = next_section.search(text, match.end())
         return text[match.end() : following.start()] if following else text[match.end():]
     # If no header found, fall back to entire text (lenient mode)
