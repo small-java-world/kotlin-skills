@@ -29,7 +29,7 @@ AMBIGUOUS_TERMS = {
     "いい感じ",
 }
 # L1: Valid rule_id pattern
-RULE_ID_PATTERN = re.compile(r"^CC-[PCTZ]\d{3}$")
+RULE_ID_PATTERN = re.compile(r"^CC-[PCT]\d{3}$")
 
 # F4: Exhaustive allowlist of defined rules (13 rules)
 VALID_RULE_IDS = {

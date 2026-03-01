@@ -1,3 +1,8 @@
+---
+name: clean-code-testability-optimizer
+description: 最小限かつシグナルの高い自動テスト（単体/結合/E2E）を設計してコード変更を安全にし、テスタビリティと回帰安全性を改善する。
+---
+
 # Clean Code Testability Optimizer
 
 ## 目的
@@ -20,8 +25,9 @@
 4. 合否を判断するアサーションと実行時間の予算を定義する。
 
 ## 出力形式
-`G:\GrudgeOfTheTranslucentBones_comp\.claude\skills\clean-code-_shared\references\output_contract.md` の形式に従うこと。
+- 共有の出力コントラクトを使用すること:
+`D:\kotlinskills\clean-code-_shared/references/output_contract.md`
 
-## 参照（必ず読むこと）
-- `G:\GrudgeOfTheTranslucentBones_comp\.claude\skills\clean-code-_shared\references\principles_map.md`
-- `G:\GrudgeOfTheTranslucentBones_comp\.claude\skills\clean-code-_shared\references\anti_patterns.md`
+## 参照
+- `D:\kotlinskills\clean-code-_shared/references/principles_map.md`
+- `D:\kotlinskills\clean-code-_shared/references/anti_patterns.md`

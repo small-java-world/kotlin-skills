@@ -1,3 +1,8 @@
+---
+name: clean-code-change-safety-reviewer
+description: 結合度・影響範囲・マイグレーション戦略を分析して変更安全性と保守性のリスクをレビューし、インクリメンタルで低リスクなリファクタリングを提案する。
+---
+
 # Clean Code Change Safety Reviewer
 
 ## 目的
@@ -21,8 +26,9 @@
 4. 各段階の検証を添付する。
 
 ## 出力形式
-`G:\GrudgeOfTheTranslucentBones_comp\.claude\skills\clean-code-_shared\references\output_contract.md` の形式に従うこと。
+- 共有の出力コントラクトを使用すること:
+`D:\kotlinskills\clean-code-_shared/references/output_contract.md`
 
-## 参照（必ず読むこと）
-- `G:\GrudgeOfTheTranslucentBones_comp\.claude\skills\clean-code-_shared\references\principles_map.md`
-- `G:\GrudgeOfTheTranslucentBones_comp\.claude\skills\clean-code-_shared\references\anti_patterns.md`
+## 参照
+- `D:\kotlinskills\clean-code-_shared/references/principles_map.md`
+- `D:\kotlinskills\clean-code-_shared/references/anti_patterns.md`

@@ -1,29 +1,30 @@
 {
   "summary": {
-    "case_count": 15,
-    "scored_cases": 15,
+    "case_count": 18,
+    "scored_cases": 18,
     "missing_cases": []
   },
   "score": {
-    "total": 95.33,
+    "total": 100.0,
     "grade": "pass",
     "breakdown": {
-      "structure_40": 36.0,
+      "structure_40": 40.0,
       "rule_f1_35": 35.0,
       "severity_match_15": 15.0,
-      "actionability_10": 9.33
+      "actionability_10": 10.0
     },
     "raw": {
       "rule_f1_avg": 1.0,
-      "severity_hit": 39,
-      "severity_total": 39
+      "severity_hit": 43,
+      "severity_total": 43,
+      "missing_cases": 0
     }
   },
   "cases": [
     {
       "case_id": "KB001",
       "status": "scored",
-      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_d1fgcp03\\KB001.json",
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB001.json",
       "lint_code": 0,
       "structure_case_score": 1.0,
       "expected_rule_count": 3,
@@ -38,7 +39,7 @@
     {
       "case_id": "KB002",
       "status": "scored",
-      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_d1fgcp03\\KB002.json",
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB002.json",
       "lint_code": 0,
       "structure_case_score": 1.0,
       "expected_rule_count": 2,
@@ -53,7 +54,7 @@
     {
       "case_id": "KB003",
       "status": "scored",
-      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_d1fgcp03\\KB003.json",
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB003.json",
       "lint_code": 0,
       "structure_case_score": 1.0,
       "expected_rule_count": 2,
@@ -68,7 +69,7 @@
     {
       "case_id": "KB004",
       "status": "scored",
-      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_d1fgcp03\\KB004.json",
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB004.json",
       "lint_code": 0,
       "structure_case_score": 1.0,
       "expected_rule_count": 2,
@@ -83,7 +84,7 @@
     {
       "case_id": "KB005",
       "status": "scored",
-      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_d1fgcp03\\KB005.json",
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB005.json",
       "lint_code": 0,
       "structure_case_score": 1.0,
       "expected_rule_count": 3,
@@ -98,7 +99,7 @@
     {
       "case_id": "KB006",
       "status": "scored",
-      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_d1fgcp03\\KB006.json",
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB006.json",
       "lint_code": 0,
       "structure_case_score": 1.0,
       "expected_rule_count": 3,
@@ -113,7 +114,7 @@
     {
       "case_id": "KB007",
       "status": "scored",
-      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_d1fgcp03\\KB007.json",
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB007.json",
       "lint_code": 0,
       "structure_case_score": 1.0,
       "expected_rule_count": 3,
@@ -128,7 +129,7 @@
     {
       "case_id": "KB008",
       "status": "scored",
-      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_d1fgcp03\\KB008.json",
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB008.json",
       "lint_code": 0,
       "structure_case_score": 1.0,
       "expected_rule_count": 3,
@@ -143,7 +144,7 @@
     {
       "case_id": "KB009",
       "status": "scored",
-      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_d1fgcp03\\KB009.json",
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB009.json",
       "lint_code": 0,
       "structure_case_score": 1.0,
       "expected_rule_count": 2,
@@ -158,7 +159,7 @@
     {
       "case_id": "KB010",
       "status": "scored",
-      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_d1fgcp03\\KB010.json",
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB010.json",
       "lint_code": 0,
       "structure_case_score": 1.0,
       "expected_rule_count": 3,
@@ -173,7 +174,7 @@
     {
       "case_id": "KB011",
       "status": "scored",
-      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_d1fgcp03\\KB011.json",
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB011.json",
       "lint_code": 0,
       "structure_case_score": 1.0,
       "expected_rule_count": 3,
@@ -188,9 +189,9 @@
     {
       "case_id": "KB012",
       "status": "scored",
-      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_d1fgcp03\\KB012.json",
-      "lint_code": 1,
-      "structure_case_score": 0.5,
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB012.json",
+      "lint_code": 0,
+      "structure_case_score": 1.0,
       "expected_rule_count": 2,
       "actual_rule_count": 2,
       "rule_f1_detail": {
@@ -203,7 +204,7 @@
     {
       "case_id": "KB013",
       "status": "scored",
-      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_d1fgcp03\\KB013.json",
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB013.json",
       "lint_code": 0,
       "structure_case_score": 1.0,
       "expected_rule_count": 4,
@@ -218,7 +219,7 @@
     {
       "case_id": "KB014",
       "status": "scored",
-      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_d1fgcp03\\KB014.json",
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB014.json",
       "lint_code": 0,
       "structure_case_score": 1.0,
       "expected_rule_count": 4,
@@ -233,9 +234,9 @@
     {
       "case_id": "KB015",
       "status": "scored",
-      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_d1fgcp03\\KB015.json",
-      "lint_code": 2,
-      "structure_case_score": 0.0,
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB015.json",
+      "lint_code": 0,
+      "structure_case_score": 1.0,
       "expected_rule_count": 0,
       "actual_rule_count": 0,
       "rule_f1_detail": {
@@ -243,7 +244,52 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "actionability_case_score": 0.0
+      "actionability_case_score": 1.0
+    },
+    {
+      "case_id": "KB016",
+      "status": "scored",
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB016.json",
+      "lint_code": 0,
+      "structure_case_score": 1.0,
+      "expected_rule_count": 2,
+      "actual_rule_count": 2,
+      "rule_f1_detail": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "actionability_case_score": 1.0
+    },
+    {
+      "case_id": "KB017",
+      "status": "scored",
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB017.json",
+      "lint_code": 0,
+      "structure_case_score": 1.0,
+      "expected_rule_count": 3,
+      "actual_rule_count": 3,
+      "rule_f1_detail": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "actionability_case_score": 1.0
+    },
+    {
+      "case_id": "KB018",
+      "status": "scored",
+      "actual_file": "C:\\Users\\kawan\\AppData\\Local\\Temp\\kotlin_eval_actual_1t5834s8\\KB018.json",
+      "lint_code": 0,
+      "structure_case_score": 1.0,
+      "expected_rule_count": 4,
+      "actual_rule_count": 4,
+      "rule_f1_detail": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "actionability_case_score": 1.0
     }
   ]
 }

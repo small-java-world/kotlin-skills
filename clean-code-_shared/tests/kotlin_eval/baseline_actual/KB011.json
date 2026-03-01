@@ -14,6 +14,13 @@
       "evidence": "Asynchronous side effects are not bounded by explicit lifecycle ownership.",
       "minimal_fix": "Use structured concurrency with caller-provided scope and explicit cancellation.",
       "verification": "Run tests that assert no leaked jobs after processor completion."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-T004",
+      "evidence": "Any test for processAsync requires Thread.sleep or runBlocking with arbitrary delays; assertions cannot express 'event was processed' without timing assumptions.",
+      "minimal_fix": "After injecting a test dispatcher, write tests named by behavior (e.g., `processed event appears in results after advancing coroutine`) with deterministic assertions.",
+      "verification": "Verify test names describe behavior and assertions use advanceUntilIdle instead of Thread.sleep."
     }
   ]
 }

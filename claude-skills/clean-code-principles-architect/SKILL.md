@@ -1,3 +1,8 @@
+---
+name: clean-code-principles-architect
+description: コアな保守性原則（KISS・YAGNI・DRY・SRP・CQS）をコード/設計に適用し、具体的な根拠付きで最小変更の修正を提案する。
+---
+
 # Clean Code Principles Architect
 
 ## 目的
@@ -18,8 +23,9 @@
 4. 検証ステップとロールバックのヒントを定義する。
 
 ## 出力形式
-`G:\GrudgeOfTheTranslucentBones_comp\.claude\skills\clean-code-_shared\references\output_contract.md` の形式に従うこと。
+- 共有の出力コントラクトを使用すること:
+`D:\kotlinskills\clean-code-_shared/references/output_contract.md`
 
-## 参照（必ず読むこと）
-- `G:\GrudgeOfTheTranslucentBones_comp\.claude\skills\clean-code-_shared\references\principles_map.md`
-- `G:\GrudgeOfTheTranslucentBones_comp\.claude\skills\clean-code-_shared\references\anti_patterns.md`
+## 参照
+- `D:\kotlinskills\clean-code-_shared/references/principles_map.md`
+- `D:\kotlinskills\clean-code-_shared/references/anti_patterns.md`

@@ -6,7 +6,7 @@
       "rule_id": "CC-T001",
       "evidence": "parse indexes fixed positions without validation for missing columns or extra separators.",
       "minimal_fix": "Add explicit input validation and return a typed parse result with failure states.",
-      "verification": "Create boundary tests for empty line, 2 columns, 3 columns, and malformed quoted values."
+      "verification": "Add boundary tests for empty line, 2 columns, 3 columns, and malformed quoted values."
     },
     {
       "severity": "medium",

@@ -1,6 +1,6 @@
 ---
 name: clean-code-workflow-manager
-description: Orchestrate clean-code guidance end-to-end by routing requests through principles, change-safety, and testability subskills, then emit decision-ready findings with evidence, minimal fixes, and verification steps.
+description: 原則・変更安全性・テスタビリティの3専門エージェントにレビューを振り分け、根拠付きのfindings・最小修正・検証手順を統合出力するワークフローマネージャー。コードレビュー・リファクタリング診断・保守性改善依頼時に使う。
 ---
 
 # Clean Code Workflow Manager
