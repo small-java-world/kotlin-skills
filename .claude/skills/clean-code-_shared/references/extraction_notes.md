@@ -52,3 +52,17 @@
 - **CC-P006 の追加**: 命名とドメイン語彙の一貫性を独立ルール化。
 - **CC-T005 の追加**: 時刻・乱数・スレッド・スケジューラ等の非決定境界を独立ルール化。
 - **CC-K001〜K005 の追加**: Kotlin 固有ルール（構造化並行性・Flow誤用・Null境界・スコープ関数・Data class）を新 CC-K プレフィックスとして追加。
+
+## クロスカッティングルールの所属判断基準
+
+CC-K ルールは principles-architect に配置し、change-safety-reviewer / testability-optimizer には配置しない。
+
+| ルール | 所属 | 判断理由 |
+|--------|------|---------|
+| CC-K001（構造化並行性） | principles-architect | CoroutineScope のライフサイクルは「設計原則」レベルの判断。CC-C002（隠れ結合）と関連するが、根本原因の検出は principles 側で行い、変更安全性への波及は CC-C002 が自然にカバーする |
+| CC-K002（Flow/Channel） | principles-architect | Flow の誤用は CQS（CC-P005）の Kotlin 固有表現。reactive パターンの選択は原則レベル |
+| CC-K003（Null境界） | principles-architect | null 安全は Kotlin の型システム設計。テスタビリティ（CC-T005）は結果的影響であり、根本は型設計の問題 |
+| CC-K004（スコープ関数） | principles-architect | 可読性・KISS（CC-P001）の Kotlin 固有表現 |
+| CC-K005（Data class） | principles-architect | 等価性契約は設計原則。変更安全性への影響は CC-C002 が検出 |
+
+**原則**: 根本原因を検出するエージェントが所有する。波及効果は他エージェントの既存ルールがカバーする。

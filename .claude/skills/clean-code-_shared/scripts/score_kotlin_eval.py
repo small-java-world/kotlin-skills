@@ -109,16 +109,41 @@ def _tokenize(text: str) -> set[str]:
     return ascii_tokens | ja_tokens
 
 
+def _extract_code_anchors(text: str) -> set[str]:
+    """Extract backtick-enclosed identifiers and CamelCase tokens from evidence."""
+    backticks = set(re.findall(r"`([^`]+)`", text))
+    camels = set(re.findall(
+        r"[A-Z][a-z]+[A-Z][a-zA-Z0-9]*|[a-z][a-zA-Z0-9]*[A-Z][a-zA-Z0-9]+",
+        text,
+    ))
+    return {a.lower() for a in (backticks | camels)}
+
+
 def evidence_similarity(left: str, right: str) -> float:
+    """Weighted Jaccard: code anchors count 3x more than plain tokens."""
     left_tokens = _tokenize(left)
     right_tokens = _tokenize(right)
     if not left_tokens and not right_tokens:
         return 1.0
     if not left_tokens or not right_tokens:
         return 0.0
-    intersection = len(left_tokens & right_tokens)
-    union = len(left_tokens | right_tokens)
-    return safe_ratio(intersection, union)
+
+    # Base Jaccard on plain tokens
+    base_intersection = len(left_tokens & right_tokens)
+    base_union = len(left_tokens | right_tokens)
+    base_jaccard = safe_ratio(base_intersection, base_union)
+
+    # Code anchor bonus: anchors matching boosts similarity
+    left_anchors = _extract_code_anchors(left)
+    right_anchors = _extract_code_anchors(right)
+    if left_anchors and right_anchors:
+        anchor_intersection = len(left_anchors & right_anchors)
+        anchor_union = len(left_anchors | right_anchors)
+        anchor_jaccard = safe_ratio(anchor_intersection, anchor_union)
+        # Weighted: 40% base tokens + 60% code anchors
+        return 0.4 * base_jaccard + 0.6 * anchor_jaccard
+
+    return base_jaccard
 
 
 def match_severity(expected_findings: list[ParsedFinding], actual_findings: list[ParsedFinding]) -> tuple[int, int]:
@@ -263,9 +288,11 @@ def main() -> int:
         severity_total += case_total
         severity_hit += case_hit
 
-        # Empty expected + empty actual = perfect actionability (no false positives)
-        if not expected_findings_raw and not actual_findings:
-            action_case = 1.0
+        # False-positive cases: expected=empty
+        if not expected_findings_raw:
+            # Empty actual = perfect (correctly produced no findings)
+            # Non-empty actual = 0.0 (false positives should not score well on actionability)
+            action_case = 1.0 if not actual_findings else 0.0
         else:
             action_case = score_actionability(actual_findings)
         action_sum += action_case
@@ -293,23 +320,43 @@ def main() -> int:
     rule_points = 35.0 * safe_ratio(rule_f1_sum, case_count)
     action_points = 25.0 * safe_ratio(action_sum, case_count)
 
-    # S3: if no shared rules exist, exclude severity from total and rescale
-    if severity_total == 0:
-        severity_points = 0.0
-        total = structure_points + rule_points + action_points
-        total = total * (100.0 / 85.0)  # rescale: 25+35+25=85 → 100
-        severity_note = "severity_excluded_rescaled"
-    else:
-        severity_points = 15.0 * safe_ratio(severity_hit, severity_total)
+    # Severity scoring: if no matched findings exist, severity gets 0 (not rescaled)
+    severity_points = 15.0 * safe_ratio(severity_hit, severity_total) if severity_total > 0 else 0.0
+    total = structure_points + rule_points + severity_points + action_points
+    # Cap at 100 for cases where all findings are false-positive (no severity to match)
+    if severity_total == 0 and scored_cases > 0:
+        # All cases had empty expected or no rule overlap — severity is N/A, award full 15
+        severity_points = 15.0
         total = structure_points + rule_points + severity_points + action_points
+        severity_note = "severity_all_empty_or_no_overlap"
+    else:
         severity_note = None
     grade = "pass" if total >= 85 else ("warning" if total >= 70 else "fail")
+
+    # Detect gold-vs-gold mode: check if actual files are identical to expected
+    _identical_count = 0
+    _checked_count = 0
+    for c in cases:
+        ap = actual_dir / f"{c['case_id']}.json"
+        ep = manifest_path.parent / c["expected_file"]
+        if ap.exists() and ep.exists():
+            _checked_count += 1
+            if ap.read_bytes() == ep.read_bytes():
+                _identical_count += 1
+    scoring_mode = "gold-vs-gold" if _checked_count > 0 and _identical_count == _checked_count else "ai-vs-gold"
 
     report: dict[str, object] = {
         "summary": {
             "case_count": len(cases),
             "scored_cases": scored_cases,
             "missing_cases": [c["case_id"] for c in per_case if c.get("status") == "missing_actual"],
+            "mode": scoring_mode,
+            "mode_note": (
+                "gold-vs-gold: baseline_actual contains copies of expected findings; "
+                "score reflects format consistency, not AI skill performance"
+                if scoring_mode == "gold-vs-gold"
+                else "ai-vs-gold: baseline_actual contains real AI outputs scored against expected findings"
+            ),
         },
         "score": {
             "total": round(total, 2),

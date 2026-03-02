@@ -3,28 +3,28 @@
     {
       "severity": "high",
       "rule_id": "CC-T004",
-      "evidence": "test1() (line 23) and testValidation() (line 29) use vague names that don't describe the scenario or expected outcome — a failure in either test gives no clue what behavior broke.",
+      "evidence": "`test1()` (line 23) and `testValidation()` (line 29) use vague names that don't describe the scenario or expected outcome — a failure in either test gives no clue what behavior broke.",
       "minimal_fix": "Rename to behavior-describing names: `test1` → `validEmail_returnsNoErrors`, `testValidation` → `allFieldsInvalid_returnsThreeSpecificErrors`.",
       "verification": "Run the renamed `EmailValidatorTest` tests and confirm they pass with identical assertions; review test output to confirm failure messages are now self-explanatory."
     },
     {
       "severity": "high",
       "rule_id": "CC-T004",
-      "evidence": "testValidation() asserts `result.size == 3` (line 30) — a magic number that doesn't verify which errors are returned. If validate starts returning a 4th error type, the test fails without explaining why.",
+      "evidence": "`testValidation()` asserts `result.size == 3` (line 30) — a magic number that doesn't verify which errors are returned. If `validate` starts returning a 4th error type, the test fails without explaining why.",
       "minimal_fix": "Replace with `assert(result.containsAll(listOf(\"invalid_recipient\", \"empty_subject\", \"body_too_long\")))` to assert specific error codes.",
       "verification": "Run the updated `EmailValidatorTest` and confirm it passes; add a new validation rule to `EmailValidator.validate()` and verify the test correctly detects the unexpected addition."
     },
     {
       "severity": "medium",
       "rule_id": "CC-T004",
-      "evidence": "testEmailFormat() (line 34) asserts `result.isNotEmpty()` — this would pass even if the validator returned a completely wrong error code, making the test unable to catch misclassification.",
+      "evidence": "`testEmailFormat()` (line 34) asserts `result.isNotEmpty()` — this would pass even if the validator returned a completely wrong error code, making the test unable to catch misclassification.",
       "minimal_fix": "Replace with `assert(\"invalid_recipient\" in result)` to verify the specific error for a missing `@` sign in `EmailValidator.validate()`.",
       "verification": "Run the `testEmailFormat` test and confirm it catches a hypothetical bug where `validate()` returns `\"empty_subject\"` instead of `\"invalid_recipient\"` for a bad email address."
     },
     {
       "severity": "medium",
       "rule_id": "CC-T004",
-      "evidence": "testErrors() (line 40) uses `result.toString() == \"[invalid_recipient, empty_subject]\"` — this is brittle (depends on List.toString format and element order) and unreadable as a specification of expected behavior.",
+      "evidence": "`testErrors()` (line 40) uses `result.toString() == \"[invalid_recipient, empty_subject]\"` — this is brittle (depends on `List.toString` format and element order) and unreadable as a specification of expected behavior.",
       "minimal_fix": "Replace with `assert(result.toSet() == setOf(\"invalid_recipient\", \"empty_subject\"))` for order-independent, format-independent comparison.",
       "verification": "Run the updated `testErrors` in `EmailValidatorTest` and confirm it passes regardless of the order in which errors are returned."
     }

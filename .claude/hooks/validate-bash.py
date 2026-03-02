@@ -55,9 +55,14 @@ BLOCKED_RE = re.compile("|".join(BLOCKED_PATTERNS), re.IGNORECASE)
 def main() -> int:
     try:
         data = json.load(sys.stdin)
-    except (json.JSONDecodeError, EOFError):
-        # If we can't parse input, allow through (fail open)
-        return 0
+    except (json.JSONDecodeError, EOFError) as exc:
+        # Fail-closed: block when input cannot be parsed (security principle)
+        print(
+            f"[validate-bash hook] BLOCKED: stdin JSON パースエラー ({exc.__class__.__name__})。\n"
+            f"  安全側に倒すためコマンドをブロックします。",
+            file=sys.stderr,
+        )
+        return 2
 
     command = data.get("tool_input", {}).get("command", "")
     if not command:

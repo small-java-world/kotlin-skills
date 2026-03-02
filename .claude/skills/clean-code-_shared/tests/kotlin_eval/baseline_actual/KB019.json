@@ -4,7 +4,7 @@
     {
       "severity": "high",
       "rule_id": "CC-T005",
-      "evidence": "issue calls Instant.now() and Random.nextInt() directly, forcing time/random-dependent assertions.",
+      "evidence": "`issue` calls `Instant.now()` and `Random.nextInt()` directly, forcing time/random-dependent assertions.",
       "minimal_fix": "Inject `Clock` and `Random` (or a `TokenEntropyProvider`) into `SessionTokenService` so tests can use deterministic fake values.",
       "verification": "Add unit tests for `SessionTokenService.issue()` with fixed clock/random and verify a stable token string is produced."
     },

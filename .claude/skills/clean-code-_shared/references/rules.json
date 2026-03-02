@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "description": "Clean-code rule definitions. Single source of truth for lint, scoring, and SKILL.md references.",
+  "rules": [
+    {"id": "CC-P001", "domain": "principles", "name": "KISS", "description": "Avoid accidental complexity, primitive abuse, unnecessary mutable state"},
+    {"id": "CC-P002", "domain": "principles", "name": "YAGNI", "description": "Remove speculative abstractions not justified by current requirements"},
+    {"id": "CC-P003", "domain": "principles", "name": "DRY", "description": "Reduce knowledge duplication (not syntactic repetition)"},
+    {"id": "CC-P004", "domain": "principles", "name": "SRP", "description": "Separate things that change for different reasons"},
+    {"id": "CC-P005", "domain": "principles", "name": "CQS", "description": "Divide state mutation from information queries"},
+    {"id": "CC-P006", "domain": "principles", "name": "Naming", "description": "Maintain domain vocabulary and naming consistency"},
+    {"id": "CC-C001", "domain": "change_safety", "name": "Impact Scope", "description": "Impact scope too broad for single change"},
+    {"id": "CC-C002", "domain": "change_safety", "name": "Hidden Coupling", "description": "Hidden coupling makes impact unclear"},
+    {"id": "CC-C003", "domain": "change_safety", "name": "Mixed Changes", "description": "Behavior and structure changed simultaneously without safety net"},
+    {"id": "CC-C004", "domain": "change_safety", "name": "Migration Path", "description": "Risky refactoring lacks incremental migration path"},
+    {"id": "CC-T001", "domain": "testability", "name": "Regression Tests", "description": "No regression tests for changed behavior"},
+    {"id": "CC-T002", "domain": "testability", "name": "Test Quality", "description": "Tests too broad, unstable, or slow"},
+    {"id": "CC-T003", "domain": "testability", "name": "Tight Coupling", "description": "Hard to test due to tight coupling"},
+    {"id": "CC-T004", "domain": "testability", "name": "Test Expressiveness", "description": "Test names/assertions don't express behavior"},
+    {"id": "CC-T005", "domain": "testability", "name": "Nondeterminism", "description": "Nondeterministic elements (time, randomness, dispatchers) not boundary-isolated"},
+    {"id": "CC-K001", "domain": "kotlin", "name": "Structured Concurrency", "description": "CoroutineScope lifecycle violations (GlobalScope, missing SupervisorJob, unmanaged scope)"},
+    {"id": "CC-K002", "domain": "kotlin", "name": "Flow/Channel Misuse", "description": "Cold/hot confusion, side effects in collect, implicit event loss"},
+    {"id": "CC-K003", "domain": "kotlin", "name": "Null Safety Breach", "description": "Platform types, lateinit abuse, unsafe casts bypassing null safety"},
+    {"id": "CC-K004", "domain": "kotlin", "name": "Scope Function Abuse", "description": "Excessive let/run/apply/also/with chaining (3+ levels)"},
+    {"id": "CC-K005", "domain": "kotlin", "name": "Data Class Contract", "description": "var in data class, inheritance breaking equals/hashCode, copy() bypassing validation"}
+  ]
+}

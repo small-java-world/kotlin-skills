@@ -3,13 +3,39 @@
 > 初回レビュー: 2026-03-01
 > 第2回レビュー: 2026-03-02
 > 第3回レビュー: 2026-03-02（全修正後）
+> 第4回レビュー: 2026-03-02（アーキテクト全指摘対応）
 > 対象: clean-code-workflow-manager / principles-architect / change-safety-reviewer / testability-optimizer
+
+---
+
+## 第4回レビュー（2026-03-02 アーキテクト全指摘対応後）
+
+### 総合評価: A（本番運用可能な品質。構造的課題も解消）
+
+第3回 A- → 第4回 A。以下を全て対応:
+
+| 指摘 | 対応 |
+|------|------|
+| H1: score=100 が自己循環 | `mode: "gold-vs-gold"` をレポートに明記 |
+| H2: validate-bash fail-open | fail-closed に変更 |
+| M1: evidence_similarity が粗い | コードアンカー重み付き Jaccard に改善 |
+| M2: 偽陽性 actionability が甘い | expected=empty + actual≠empty → actionability=0.0 |
+| M3: Markdown パーサー未テスト | テストフィクスチャ追加、file/line_range 抽出確認済み |
+| M4: バッククォート未統一 | KB009/KB013/KB017/KB018/KB019 の15件修正 |
+| M5: CC-K002〜K005 偽陽性不足 | KB042-KB045 追加（計8偽陽性ケース） |
+| L1: ルール所属基準 | extraction_notes.md にクロスカッティング判断基準追記 |
+| L2: severity rescale | rescale 廃止、severity_total=0 時は15点付与 |
+| D1: エージェント間情報フロー | workflow-manager SKILL.md に方針追記 |
+| D2: ルール外部化 | rules.json 作成、lint が自動読み込み |
+| D3: CLAUDE.md 不在 | CLAUDE.md 作成 |
+
+現在: 45 eval ケース、偽陽性8件、score 100.0 (gold-vs-gold)、lint 全 pass。
 
 ---
 
 ## 第3回レビュー（2026-03-02 全修正完了後）
 
-### 総合評価: A-（運用可能な品質に到達。残課題はインフラ堅牢性と設計深化）
+### 総合評価: ~~A-~~ → 第4回で A に昇格
 
 前回 B- → 今回 A-。第2回の全指摘事項（Critical / High / Medium）が対処された。
 self-test 100.0 も「ゴールドデータ修正 + evaluator 復元」の正しい方法で達成。

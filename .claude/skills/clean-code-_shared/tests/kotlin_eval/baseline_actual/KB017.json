@@ -3,21 +3,21 @@
     {
       "severity": "high",
       "rule_id": "CC-P005",
-      "evidence": "deposit() mutates account.balance and account.lastTransaction (lines 12-13) while also returning the new balance -callers cannot tell if the return value reflects a query or confirms a side effect.",
+      "evidence": "`deposit()` mutates `account.balance` and `account.lastTransaction` (lines 12-13) while also returning the new balance — callers cannot tell if the return value reflects a query or confirms a side effect.",
       "minimal_fix": "Split into `deposit(accountId, amount): Unit` (command) and `getBalance(accountId): Double` (query, already exists at line 37). Callers that need the post-deposit balance call `getBalance()` after `deposit()`.",
       "verification": "Change `AccountService.deposit()` to return `Unit`, update all call sites, and run existing tests to confirm no behaviour change."
     },
     {
       "severity": "high",
       "rule_id": "CC-P005",
-      "evidence": "withdraw() returns Pair<Boolean, Double> mixing a success flag (command result) with the remaining balance (query) -callers must destructure to distinguish failure from success, and the balance value is ambiguous on failure.",
+      "evidence": "`withdraw()` returns `Pair<Boolean, Double>` mixing a success flag (command result) with the remaining balance (query) — callers must destructure to distinguish failure from success, and the balance value is ambiguous on failure.",
       "minimal_fix": "Make `AccountService.withdraw(accountId, amount): Unit` throw `InsufficientFundsException` on failure. Callers query `getBalance()` separately when needed.",
       "verification": "Add tests asserting `withdraw()` throws `InsufficientFundsException` on insufficient funds and that `getBalance()` returns the correct value before and after withdrawal."
     },
     {
       "severity": "medium",
       "rule_id": "CC-P005",
-      "evidence": "transfer() returns a status string (\"OK:balance\" or \"INSUFFICIENT_FUNDS:balance\") that encodes both command outcome and query data in an unparseable format (line 30, 33).",
+      "evidence": "`transfer()` returns a status string (`\"OK:balance\"` or `\"INSUFFICIENT_FUNDS:balance\"`) that encodes both command outcome and query data in an unparseable format (line 30, 33).",
       "minimal_fix": "Make `AccountService.transfer()` return `Unit` (or a sealed `TransferResult` type if status reporting is needed), and let callers query balances via `getBalance()` independently.",
       "verification": "Run existing `AccountService.transfer()` scenario tests after refactoring to return `Unit` and verify all pass without behavior change."
     }

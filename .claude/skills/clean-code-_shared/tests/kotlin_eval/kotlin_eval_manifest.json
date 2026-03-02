@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "domain": "kotlin-web-backend",
-  "case_count": 41,
+  "case_count": 45,
   "cases": [
     {
       "case_id": "KB001",
@@ -485,6 +485,54 @@
       "context_file": "cases/KB041/context.md",
       "expected_file": "cases/KB041/expected_findings.json",
       "source_refs": [
+        "kotlinlang/coding-conventions"
+      ]
+    },
+    {
+      "case_id": "KB042",
+      "category": "kotlin",
+      "difficulty": "intro",
+      "input_file": "cases/KB042/input_bad.kt",
+      "context_file": "cases/KB042/context.md",
+      "expected_file": "cases/KB042/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/flow",
+        "kotlinlang/stateflow"
+      ]
+    },
+    {
+      "case_id": "KB043",
+      "category": "kotlin",
+      "difficulty": "intro",
+      "input_file": "cases/KB043/input_bad.kt",
+      "context_file": "cases/KB043/context.md",
+      "expected_file": "cases/KB043/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/null-safety",
+        "jetbrains/kotlin-null-safety"
+      ]
+    },
+    {
+      "case_id": "KB044",
+      "category": "kotlin",
+      "difficulty": "intro",
+      "input_file": "cases/KB044/input_bad.kt",
+      "context_file": "cases/KB044/context.md",
+      "expected_file": "cases/KB044/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/scope-functions",
+        "jetbrains/kotlin-idioms"
+      ]
+    },
+    {
+      "case_id": "KB045",
+      "category": "kotlin",
+      "difficulty": "intro",
+      "input_file": "cases/KB045/input_bad.kt",
+      "context_file": "cases/KB045/context.md",
+      "expected_file": "cases/KB045/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/data-classes",
         "kotlinlang/coding-conventions"
       ]
     }

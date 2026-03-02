@@ -1,8 +1,10 @@
 {
   "summary": {
-    "case_count": 41,
-    "scored_cases": 41,
-    "missing_cases": []
+    "case_count": 45,
+    "scored_cases": 45,
+    "missing_cases": [],
+    "mode": "gold-vs-gold",
+    "mode_note": "gold-vs-gold: baseline_actual contains copies of expected findings; score reflects format consistency, not AI skill performance"
   },
   "score": {
     "total": 100.0,
@@ -583,6 +585,62 @@
     },
     {
       "case_id": "KB041",
+      "status": "scored",
+      "lint_code": 0,
+      "structure_case_score": 1.0,
+      "expected_rule_count": 0,
+      "actual_rule_count": 0,
+      "rule_f1_detail": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "actionability_case_score": 1.0
+    },
+    {
+      "case_id": "KB042",
+      "status": "scored",
+      "lint_code": 0,
+      "structure_case_score": 1.0,
+      "expected_rule_count": 0,
+      "actual_rule_count": 0,
+      "rule_f1_detail": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "actionability_case_score": 1.0
+    },
+    {
+      "case_id": "KB043",
+      "status": "scored",
+      "lint_code": 0,
+      "structure_case_score": 1.0,
+      "expected_rule_count": 0,
+      "actual_rule_count": 0,
+      "rule_f1_detail": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "actionability_case_score": 1.0
+    },
+    {
+      "case_id": "KB044",
+      "status": "scored",
+      "lint_code": 0,
+      "structure_case_score": 1.0,
+      "expected_rule_count": 0,
+      "actual_rule_count": 0,
+      "rule_f1_detail": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "actionability_case_score": 1.0
+    },
+    {
+      "case_id": "KB045",
       "status": "scored",
       "lint_code": 0,
       "structure_case_score": 1.0,

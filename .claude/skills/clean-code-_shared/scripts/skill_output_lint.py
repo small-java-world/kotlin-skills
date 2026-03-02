@@ -17,6 +17,21 @@ import sys
 from dataclasses import dataclass
 from typing import Iterable
 
+def _load_valid_rule_ids() -> set[str]:
+    """Load rule IDs from rules.json if available, otherwise use hardcoded set."""
+    rules_path = pathlib.Path(__file__).resolve().parent.parent / "references" / "rules.json"
+    if rules_path.exists():
+        data = json.loads(rules_path.read_text(encoding="utf-8"))
+        return {r["id"] for r in data.get("rules", [])}
+    # Fallback: hardcoded set (kept in sync manually)
+    return {
+        "CC-P001", "CC-P002", "CC-P003", "CC-P004", "CC-P005", "CC-P006",
+        "CC-C001", "CC-C002", "CC-C003", "CC-C004",
+        "CC-T001", "CC-T002", "CC-T003", "CC-T004", "CC-T005",
+        "CC-K001", "CC-K002", "CC-K003", "CC-K004", "CC-K005",
+    }
+
+
 SEVERITIES = {"critical", "high", "medium", "low"}
 AMBIGUOUS_TERMS = {
     "somehow",
@@ -31,13 +46,8 @@ AMBIGUOUS_TERMS = {
 # L1: Valid rule_id pattern
 RULE_ID_PATTERN = re.compile(r"^CC-[PCTK]\d{3}$")
 
-# F4: Exhaustive allowlist of defined rules (20 rules)
-VALID_RULE_IDS = {
-    "CC-P001", "CC-P002", "CC-P003", "CC-P004", "CC-P005", "CC-P006",
-    "CC-C001", "CC-C002", "CC-C003", "CC-C004",
-    "CC-T001", "CC-T002", "CC-T003", "CC-T004", "CC-T005",
-    "CC-K001", "CC-K002", "CC-K003", "CC-K004", "CC-K005",
-}
+# F4: Exhaustive allowlist of defined rules (loaded from rules.json or fallback)
+VALID_RULE_IDS = _load_valid_rule_ids()
 
 # L5: ACTION_WORDS for verification executability check (word-boundary safe via \b)
 ACTION_WORDS_PATTERN = re.compile(

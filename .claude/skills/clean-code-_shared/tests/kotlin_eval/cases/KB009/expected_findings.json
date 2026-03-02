@@ -4,7 +4,7 @@
     {
       "severity": "high",
       "rule_id": "CC-T003",
-      "evidence": "issueToken directly calls LocalDateTime.now, Random.nextInt, and UUID.randomUUID.",
+      "evidence": "`issueToken` directly calls `LocalDateTime.now`, `Random.nextInt`, and `UUID.randomUUID`.",
       "minimal_fix": "Inject `Clock`, `Random` provider, and id generator interfaces into `SessionTokenService`.",
       "verification": "Add deterministic unit tests for `SessionTokenService.issueToken()` with fixed providers and assert exact token format."
     },

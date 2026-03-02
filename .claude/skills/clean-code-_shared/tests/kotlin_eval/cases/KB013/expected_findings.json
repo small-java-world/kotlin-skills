@@ -4,21 +4,21 @@
     {
       "severity": "high",
       "rule_id": "CC-P004",
-      "evidence": "fulfill handles inventory reservation, payment charging, audit logging, rollback coordination, and HTTP-like response formatting in one method.",
+      "evidence": "`fulfill` handles inventory reservation, payment charging, audit logging, rollback coordination, and HTTP-like response formatting in one method.",
       "minimal_fix": "Extract `ResponseMapper`, `AuditWriter`, and a `FulfillmentOrchestrator` that calls domain steps and delegates formatting. Keep `PaymentGateway` and `InventoryService` as injected dependencies.",
       "verification": "Add unit tests for `ResponseMapper` and `AuditWriter` in isolation, then add an integration test for `OrderFulfillmentService.fulfill()` success and payment-failure rollback paths."
     },
     {
       "severity": "high",
       "rule_id": "CC-C001",
-      "evidence": "When payment.charge fails (line 50), reserved.forEach { inventory.release(it) } (line 52) runs inline with no try/catch — if release throws on the second item, earlier reservations leak and AuditStore records only PAYMENT_FAIL, not the partial-rollback failure.",
+      "evidence": "When `payment.charge` fails (line 50), `reserved.forEach { inventory.release(it) }` (line 52) runs inline with no try/catch — if `release` throws on the second item, earlier reservations leak and `AuditStore` records only `PAYMENT_FAIL`, not the partial-rollback failure.",
       "minimal_fix": "Introduce a `CompensationPlan` that records each completed step and executes rollback in reverse order, decoupled from `OrderFulfillmentService.fulfill()`.",
       "verification": "Add tests that simulate `InventoryService.release()` throwing after payment failure and assert compensation is attempted for all previously reserved items."
     },
     {
       "severity": "medium",
       "rule_id": "CC-P001",
-      "evidence": "Early-return Map literals with HTTP status codes inside domain logic obscure the business flow and couple it to the transport layer.",
+      "evidence": "Early-return `Map` literals with HTTP status codes inside domain logic obscure the business flow and couple it to the transport layer.",
       "minimal_fix": "Replace inline `Map` returns with a sealed `FulfillmentResult` type and move HTTP mapping to a boundary layer.",
       "verification": "Run existing `OrderFulfillmentService` tests and confirm behavior is identical after introducing `FulfillmentResult`."
     },
