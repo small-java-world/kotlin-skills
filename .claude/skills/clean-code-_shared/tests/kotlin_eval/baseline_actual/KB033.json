@@ -7,6 +7,13 @@
       "evidence": "`SensorEventProcessor.processReadings` and `processAllSensors` apply `.conflate()` after `channelFlow`, which silently drops intermediate values when the collector is slower than the producer; there is no logging or explicit `BufferOverflow` strategy, so event loss is invisible.",
       "minimal_fix": "Replace `.conflate()` with `.buffer(capacity, onBufferOverflow = BufferOverflow.DROP_OLDEST)` and add a logging callback for dropped events, or use `onBufferOverflow` to make the overflow strategy explicit and observable.",
       "verification": "Add a test with a fast producer and slow consumer; assert that the overflow strategy is invoked and verify via a counter or log that dropped events are accounted for."
+    },
+    {
+      "severity": "low",
+      "rule_id": "CC-P001",
+      "evidence": "`processReadings` wraps `sensorGateway.streamReadings()` in a `channelFlow` that merely re-collects and re-sends each element; the `channelFlow` adds no transformation or merging and is equivalent to using the upstream flow directly.",
+      "minimal_fix": "Remove the `channelFlow` wrapper in `processReadings` and apply operators directly to `sensorGateway.streamReadings(sensorId)`.",
+      "verification": "Replace the `channelFlow` block with `sensorGateway.streamReadings(sensorId)` and run existing tests to verify identical behavior."
     }
   ]
 }

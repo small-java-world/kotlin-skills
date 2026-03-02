@@ -15,8 +15,8 @@
     },
     "raw": {
       "rule_f1_avg": 1.0,
-      "severity_hit": 87,
-      "severity_total": 87,
+      "severity_hit": 89,
+      "severity_total": 89,
       "missing_cases": 0
     }
   },
@@ -474,8 +474,8 @@
       "status": "scored",
       "lint_code": 0,
       "structure_case_score": 1.0,
-      "expected_rule_count": 1,
-      "actual_rule_count": 1,
+      "expected_rule_count": 2,
+      "actual_rule_count": 2,
       "rule_f1_detail": {
         "precision": 1.0,
         "recall": 1.0,
@@ -544,8 +544,8 @@
       "status": "scored",
       "lint_code": 0,
       "structure_case_score": 1.0,
-      "expected_rule_count": 2,
-      "actual_rule_count": 2,
+      "expected_rule_count": 3,
+      "actual_rule_count": 3,
       "rule_f1_detail": {
         "precision": 1.0,
         "recall": 1.0,

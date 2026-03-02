@@ -17,8 +17,9 @@ class DashboardViewModel(
         scope.launch {
             statsRepo.observe().collect { stats ->
                 _state.value = DashboardState(stats.total, stats.active)
-                // BUG: side effect inside collect — re-collect replays
-                // the latest value, causing duplicate audit writes
+                // BUG: side effect inside collect — if the collector restarts
+                // (e.g., lifecycle recreation), the side effect re-executes for
+                // previously seen values, causing duplicate audit writes
                 auditLog.recordView(stats.total)
             }
         }

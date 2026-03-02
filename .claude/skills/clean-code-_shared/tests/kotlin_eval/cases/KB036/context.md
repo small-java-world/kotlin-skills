@@ -1,7 +1,7 @@
-Case_ID: KB036
-Category: kotlin
-Difficulty: intermediate
-Source_Refs: kotlinlang/scope-functions, jetbrains/kotlin-idioms
+case_id: KB036
+category: kotlin
+difficulty: intermediate
+source_refs: kotlinlang/scope-functions, jetbrains/kotlin-idioms
 
 # Scenario
 A request builder chains three scope functions (`apply`, `also`, `let`) in sequence, making the receiver context ambiguous and the code difficult to follow.

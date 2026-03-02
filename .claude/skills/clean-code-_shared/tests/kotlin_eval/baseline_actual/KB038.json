@@ -14,6 +14,13 @@
       "evidence": "The `open class` inheritance hierarchy with `when` exhaustiveness checks in `findByOrderId` is fragile; adding a new event type requires updating every `when` block, and the `else -> false` branch silently ignores unknown types.",
       "minimal_fix": "Replace `open class DomainEvent` with `sealed interface DomainEvent` so the compiler enforces exhaustive `when` expressions and the `else` branch is no longer needed.",
       "verification": "Remove the `else` branch from `findByOrderId` and verify that the code compiles with exhaustive `when` after switching to sealed interface."
+    },
+    {
+      "severity": "low",
+      "rule_id": "CC-T005",
+      "evidence": "`DomainEvent` uses `System.currentTimeMillis()` as a default parameter for `timestamp`, making event creation non-deterministic; tests cannot control the timestamp without passing it explicitly every time.",
+      "minimal_fix": "Inject a `Clock` or a `() -> Long` timestamp provider into the event factory so tests can supply a fixed value.",
+      "verification": "Add a test that creates two events with a fixed clock and assert their timestamps are identical and predictable."
     }
   ]
 }

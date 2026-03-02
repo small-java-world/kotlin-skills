@@ -1,7 +1,7 @@
-Case_ID: KB037
-Category: kotlin
-Difficulty: intermediate
-Source_Refs: kotlinlang/data-classes, kotlinlang/coding-conventions
+case_id: KB037
+category: kotlin
+difficulty: intermediate
+source_refs: kotlinlang/data-classes, kotlinlang/coding-conventions
 
 # Scenario
 A data class has a companion factory method with validation, but the auto-generated `copy()` method bypasses that validation entirely. Callers can create invalid instances via `copy()`.

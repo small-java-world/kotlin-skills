@@ -1,7 +1,7 @@
-Case_ID: KB031
-Category: kotlin
-Difficulty: advanced
-Source_Refs: kotlinlang/coroutines, google/structured-concurrency
+case_id: KB031
+category: kotlin
+difficulty: advanced
+source_refs: kotlinlang/coroutines, google/structured-concurrency
 
 # Scenario
 A cache warming service creates its own `CoroutineScope(Dispatchers.IO)` internally and launches background work. The scope is never cancelled, leaks coroutines, and the hardcoded dispatcher makes testing impossible.

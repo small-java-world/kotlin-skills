@@ -1,7 +1,7 @@
-Case_ID: KB035
-Category: kotlin
-Difficulty: advanced
-Source_Refs: kotlinlang/typecasts, jetbrains/kotlin-null-safety
+case_id: KB035
+category: kotlin
+difficulty: advanced
+source_refs: kotlinlang/typecasts, jetbrains/kotlin-null-safety
 
 # Scenario
 A JSON response parser uses unsafe `as` casts to convert parsed data, bypassing Kotlin's null safety system. The casts throw ClassCastException at runtime when the actual types don't match expectations.

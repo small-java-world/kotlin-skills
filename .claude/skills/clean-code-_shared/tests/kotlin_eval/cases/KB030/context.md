@@ -1,7 +1,7 @@
-Case_ID: KB030
-Category: kotlin
-Difficulty: intermediate
-Source_Refs: kotlinlang/coroutines, google/structured-concurrency
+case_id: KB030
+category: kotlin
+difficulty: intermediate
+source_refs: kotlinlang/coroutines, google/structured-concurrency
 
 # Scenario
 A batch notification service uses `coroutineScope` to launch multiple child coroutines for sending notifications in parallel. When one child fails, all siblings are cancelled, losing partially-sent notifications. The service should use `supervisorScope` to isolate failures.

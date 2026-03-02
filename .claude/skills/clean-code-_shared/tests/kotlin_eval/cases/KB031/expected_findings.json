@@ -4,8 +4,8 @@
     {
       "severity": "high",
       "rule_id": "CC-K001",
-      "evidence": "`CacheWarmingService` creates `CoroutineScope(Dispatchers.IO)` as a private field; there is no `close()` or `cancel()` method, so coroutines launched via `startWarming` and `startPeriodicRefresh` are never cancelled and leak beyond the service lifecycle.",
-      "minimal_fix": "Accept a `CoroutineScope` via constructor injection instead of creating one internally; implement `Closeable` or provide a `close()` method that cancels the scope.",
+      "evidence": "`CacheWarmingService` creates `CoroutineScope(Dispatchers.IO)` as a private field without `SupervisorJob()`; there is no `close()` or `cancel()` method, so coroutines leak beyond the service lifecycle, and a single child failure cancels the entire scope because there is no supervisor to isolate exceptions.",
+      "minimal_fix": "Accept a `CoroutineScope` via constructor injection instead of creating one internally; ensure the scope includes `SupervisorJob()` so that one failed child does not cancel siblings; implement `Closeable` or provide a `close()` method that cancels the scope.",
       "verification": "In a test, inject `TestScope`, call `startPeriodicRefresh`, cancel the scope, and assert that `load()` is no longer invoked after cancellation."
     },
     {

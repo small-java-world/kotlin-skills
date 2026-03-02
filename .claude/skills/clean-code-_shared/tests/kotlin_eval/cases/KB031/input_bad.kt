@@ -7,8 +7,9 @@ import kotlinx.coroutines.launch
 
 class CacheWarmingService(private val cacheLoader: CacheLoader) {
 
-    // BUG: internally created scope with hardcoded Dispatchers.IO
-    // Cannot be cancelled from outside, leaks coroutines on service shutdown
+    // BUG: internally created scope with hardcoded Dispatchers.IO and no SupervisorJob
+    // Cannot be cancelled from outside, leaks coroutines on service shutdown,
+    // and one child failure cancels the entire scope
     private val scope = CoroutineScope(Dispatchers.IO)
 
     fun startWarming(keys: List<String>) {

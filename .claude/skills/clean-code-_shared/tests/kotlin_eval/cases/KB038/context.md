@@ -1,7 +1,7 @@
-Case_ID: KB038
-Category: kotlin
-Difficulty: advanced
-Source_Refs: kotlinlang/data-classes, kotlinlang/sealed-classes
+case_id: KB038
+category: kotlin
+difficulty: advanced
+source_refs: kotlinlang/data-classes, kotlinlang/sealed-classes
 
 # Scenario
 A data class extends an open class, breaking the equals/hashCode contract. The parent class fields are excluded from the generated equals/hashCode, causing asymmetric equality. A sealed class hierarchy should be used instead.

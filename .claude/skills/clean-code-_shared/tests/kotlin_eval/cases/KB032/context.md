@@ -1,7 +1,7 @@
-Case_ID: KB032
-Category: kotlin
-Difficulty: intermediate
-Source_Refs: kotlinlang/flow, kotlinlang/stateflow
+case_id: KB032
+category: kotlin
+difficulty: intermediate
+source_refs: kotlinlang/flow, kotlinlang/stateflow
 
 # Scenario
 A dashboard view model collects a StateFlow and performs a database write (side effect) inside the `collect` lambda. If the collector restarts (e.g., screen rotation), the side effect executes again for the same state, causing duplicate writes.
