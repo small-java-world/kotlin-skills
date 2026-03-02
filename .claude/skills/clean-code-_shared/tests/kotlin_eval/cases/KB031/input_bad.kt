@@ -1,0 +1,36 @@
+package eval.kb031
+
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+class CacheWarmingService(private val cacheLoader: CacheLoader) {
+
+    // BUG: internally created scope with hardcoded Dispatchers.IO
+    // Cannot be cancelled from outside, leaks coroutines on service shutdown
+    private val scope = CoroutineScope(Dispatchers.IO)
+
+    fun startWarming(keys: List<String>) {
+        keys.forEach { key ->
+            scope.launch {
+                cacheLoader.load(key)
+            }
+        }
+    }
+
+    fun startPeriodicRefresh(key: String, intervalMs: Long) {
+        scope.launch {
+            while (true) {
+                cacheLoader.load(key)
+                delay(intervalMs)
+            }
+        }
+    }
+
+    // No cancel/close method — the scope lives forever
+}
+
+interface CacheLoader {
+    suspend fun load(key: String)
+}

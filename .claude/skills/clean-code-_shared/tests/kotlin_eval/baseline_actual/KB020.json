@@ -5,22 +5,22 @@
       "severity": "high",
       "rule_id": "CC-T005",
       "evidence": "stream hard-codes delay(1000) and Dispatchers.IO, so tests cannot control scheduling deterministically.",
-      "minimal_fix": "Inject dispatcher and polling interval (or scheduler abstraction) and use coroutine test dispatcher in unit tests.",
-      "verification": "Run tests with StandardTestDispatcher and advanceUntilIdle to verify emissions without real time waits."
+      "minimal_fix": "Inject dispatcher and polling interval (or scheduler abstraction) into `PriceStreamService` and use coroutine test dispatcher in unit tests.",
+      "verification": "Run tests with `StandardTestDispatcher` and `advanceUntilIdle` to verify `stream()` emissions without real time waits."
     },
     {
       "severity": "medium",
       "rule_id": "CC-T002",
       "evidence": "Without scheduler control, validating stream behavior requires slow integration-style timing checks.",
-      "minimal_fix": "Split emission logic into fast unit-tested loop policy and minimal integration test for real dispatcher wiring.",
-      "verification": "Run the test suite, measure runtime, and verify stream behavior is covered by fast deterministic tests."
+      "minimal_fix": "Split `PriceStreamService.stream()` emission logic into fast unit-tested loop policy and minimal integration test for real dispatcher wiring.",
+      "verification": "Run the `PriceStreamService` test suite, measure runtime, and verify stream behavior is covered by fast deterministic tests."
     },
     {
       "severity": "medium",
       "rule_id": "CC-T003",
       "evidence": "The service owns API construction and execution policy in one path, limiting isolated testing seams.",
-      "minimal_fix": "Inject PriceApi and execution policy dependencies explicitly to isolate flow behavior from transport.",
-      "verification": "Add unit tests with fake PriceApi and verify emitted sequence under controlled scheduler."
+      "minimal_fix": "Inject `PriceApi` and execution policy dependencies explicitly to isolate flow behavior from transport.",
+      "verification": "Add unit tests with fake `PriceApi` and verify emitted sequence under controlled scheduler."
     }
   ]
 }

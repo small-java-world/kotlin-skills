@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "domain": "kotlin-web-backend",
-  "case_count": 29,
+  "case_count": 41,
   "cases": [
     {
       "case_id": "KB001",
@@ -344,6 +344,148 @@
       "source_refs": [
         "kotlinlang/data-classes",
         "kotlinlang/sealed-classes"
+      ]
+    },
+    {
+      "case_id": "KB030",
+      "category": "kotlin",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB030/input_bad.kt",
+      "context_file": "cases/KB030/context.md",
+      "expected_file": "cases/KB030/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/coroutines",
+        "google/structured-concurrency"
+      ]
+    },
+    {
+      "case_id": "KB031",
+      "category": "kotlin",
+      "difficulty": "advanced",
+      "input_file": "cases/KB031/input_bad.kt",
+      "context_file": "cases/KB031/context.md",
+      "expected_file": "cases/KB031/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/coroutines",
+        "google/structured-concurrency"
+      ]
+    },
+    {
+      "case_id": "KB032",
+      "category": "kotlin",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB032/input_bad.kt",
+      "context_file": "cases/KB032/context.md",
+      "expected_file": "cases/KB032/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/flow",
+        "kotlinlang/stateflow"
+      ]
+    },
+    {
+      "case_id": "KB033",
+      "category": "kotlin",
+      "difficulty": "advanced",
+      "input_file": "cases/KB033/input_bad.kt",
+      "context_file": "cases/KB033/context.md",
+      "expected_file": "cases/KB033/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/flow",
+        "kotlinlang/channels"
+      ]
+    },
+    {
+      "case_id": "KB034",
+      "category": "kotlin",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB034/input_bad.kt",
+      "context_file": "cases/KB034/context.md",
+      "expected_file": "cases/KB034/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/properties",
+        "jetbrains/kotlin-null-safety"
+      ]
+    },
+    {
+      "case_id": "KB035",
+      "category": "kotlin",
+      "difficulty": "advanced",
+      "input_file": "cases/KB035/input_bad.kt",
+      "context_file": "cases/KB035/context.md",
+      "expected_file": "cases/KB035/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/typecasts",
+        "jetbrains/kotlin-null-safety"
+      ]
+    },
+    {
+      "case_id": "KB036",
+      "category": "kotlin",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB036/input_bad.kt",
+      "context_file": "cases/KB036/context.md",
+      "expected_file": "cases/KB036/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/scope-functions",
+        "jetbrains/kotlin-idioms"
+      ]
+    },
+    {
+      "case_id": "KB037",
+      "category": "kotlin",
+      "difficulty": "intermediate",
+      "input_file": "cases/KB037/input_bad.kt",
+      "context_file": "cases/KB037/context.md",
+      "expected_file": "cases/KB037/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/data-classes",
+        "kotlinlang/coding-conventions"
+      ]
+    },
+    {
+      "case_id": "KB038",
+      "category": "kotlin",
+      "difficulty": "advanced",
+      "input_file": "cases/KB038/input_bad.kt",
+      "context_file": "cases/KB038/context.md",
+      "expected_file": "cases/KB038/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/data-classes",
+        "kotlinlang/sealed-classes"
+      ]
+    },
+    {
+      "case_id": "KB039",
+      "category": "kotlin",
+      "difficulty": "intro",
+      "input_file": "cases/KB039/input_bad.kt",
+      "context_file": "cases/KB039/context.md",
+      "expected_file": "cases/KB039/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/coroutines",
+        "google/structured-concurrency"
+      ]
+    },
+    {
+      "case_id": "KB040",
+      "category": "principles",
+      "difficulty": "intro",
+      "input_file": "cases/KB040/input_bad.kt",
+      "context_file": "cases/KB040/context.md",
+      "expected_file": "cases/KB040/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/coding-conventions"
+      ]
+    },
+    {
+      "case_id": "KB041",
+      "category": "testability",
+      "difficulty": "intro",
+      "input_file": "cases/KB041/input_bad.kt",
+      "context_file": "cases/KB041/context.md",
+      "expected_file": "cases/KB041/expected_findings.json",
+      "source_refs": [
+        "kotlinlang/coding-conventions"
       ]
     }
   ]

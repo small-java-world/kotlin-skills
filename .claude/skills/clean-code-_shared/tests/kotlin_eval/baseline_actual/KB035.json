@@ -1,0 +1,19 @@
+{
+  "summary": "Unsafe `as` casts bypass null safety and throw ClassCastException when JSON structure differs from expectations.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-K003",
+      "evidence": "`JsonResponseParser.parseUserProfile` and `parseUserList` use `as` casts (e.g., `raw as Map<String, Any>`, `map[\"name\"] as String`) that throw `ClassCastException` at runtime when the actual type does not match; Kotlin's null safety is completely bypassed.",
+      "minimal_fix": "Replace `as` with `as?` safe casts and use elvis operators to provide default values or throw domain-specific exceptions (e.g., `raw as? Map<*, *> ?: throw ParseException(\"expected object\")`).",
+      "verification": "Add a test that passes malformed JSON (e.g., missing `name` key or `age` as String) and assert a domain-specific exception is thrown instead of `ClassCastException`."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-P001",
+      "evidence": "The parser performs unchecked type conversions (`as Map<String, Any>`, `as List<Map<String, Any>>`) without validation, making the code fragile to any upstream data format change.",
+      "minimal_fix": "Introduce a typed deserialization step using a JSON library (e.g., kotlinx.serialization) or add explicit type-checking with `is` before casting.",
+      "verification": "Verify that `parseUserProfile` handles unexpected types gracefully by passing an `Int` as `raw` and asserting no `ClassCastException` is thrown."
+    }
+  ]
+}

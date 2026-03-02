@@ -5,15 +5,15 @@
       "severity": "high",
       "rule_id": "CC-T005",
       "evidence": "refreshRemote uses real delay and refreshBlocking wraps it in runBlocking, pushing tests toward real-time waiting.",
-      "minimal_fix": "Inject dispatcher/test scheduler and expose suspend API for core logic; keep blocking bridge as thin adapter.",
-      "verification": "Add coroutine tests that advance virtual time and verify refresh result without Thread.sleep."
+      "minimal_fix": "Inject `CoroutineDispatcher` into `InventoryGateway` and expose `refreshRemote()` suspend API for core logic; keep `InventoryRefresher.refreshBlocking()` as thin adapter.",
+      "verification": "Add coroutine tests for `InventoryGateway.refreshRemote()` that advance virtual time with `advanceUntilIdle` and verify refresh result without `Thread.sleep`."
     },
     {
       "severity": "medium",
       "rule_id": "CC-T002",
       "evidence": "Current shape encourages slow tests around blocking calls instead of focused suspend-function tests.",
-      "minimal_fix": "Test refreshRemote with test dispatcher and keep one lightweight integration test for blocking adapter wiring.",
-      "verification": "Run the suite, measure runtime, and verify unit tests complete without real-time delay dependency."
+      "minimal_fix": "Test `InventoryGateway.refreshRemote()` with test dispatcher and keep one lightweight integration test for `InventoryRefresher.refreshBlocking()` adapter wiring.",
+      "verification": "Run the `InventoryGateway` test suite, measure runtime, and verify unit tests complete without real-time delay dependency."
     }
   ]
 }

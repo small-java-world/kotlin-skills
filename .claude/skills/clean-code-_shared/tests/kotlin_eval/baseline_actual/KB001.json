@@ -5,23 +5,22 @@
       "severity": "high",
       "rule_id": "CC-P004",
       "evidence": "updateProfile handles input validation, repository writes, audit logging, and HTTP-like response shaping in one method.",
-      "minimal_fix": "Extract validation and response mapping into dedicated functions while keeping business flow in one service method.",
-      "verification": "Add unit tests for validator and response mapper, then run existing profile update tests."
+      "minimal_fix": "Extract validation and response mapping into dedicated functions (e.g., `validateInput()`, `toResponse()`) while keeping business flow in `UserProfileController.updateProfile()`.",
+      "verification": "Add unit tests for `validateInput` and `toResponse`, then run existing `updateProfile` tests."
     },
     {
       "severity": "medium",
       "rule_id": "CC-P001",
       "evidence": "Multiple nested branches for error formatting make the control flow harder to change safely.",
-      "minimal_fix": "Introduce a small Result type and centralize error response creation.",
-      "verification": "Run endpoint tests for invalid userId, invalid email, and save failure branches."
+      "minimal_fix": "Introduce a small `Result` type and centralize error response creation in `updateProfile()`.",
+      "verification": "Run endpoint tests for invalid `userId`, invalid `email`, and `UserRepo.save()` failure branches."
     },
     {
       "severity": "medium",
       "rule_id": "CC-T001",
       "evidence": "No explicit regression tests are defined for validation edge cases in this flow.",
-      "minimal_fix": "Add focused unit tests for invalid email, blank userId, and name length limit.",
-      "verification": "Execute profile validation test suite and confirm branch coverage for all validation paths."
+      "minimal_fix": "Add focused unit tests for `updateProfile()` covering invalid email, blank userId, and name length limit.",
+      "verification": "Execute `UserProfileController` validation test suite and confirm branch coverage for all validation paths."
     }
   ]
 }
-

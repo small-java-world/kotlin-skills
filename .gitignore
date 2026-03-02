@@ -5,3 +5,7 @@ __pycache__/
 
 # IDE
 .idea/
+
+# Generated artifacts
+score_report.json
+kotlin_eval_manifest.json

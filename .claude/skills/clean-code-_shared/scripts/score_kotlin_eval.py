@@ -20,6 +20,11 @@ ACTION_WORDS_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
+# S3: Backtick-enclosed identifiers or CamelCase identifiers in fix/verification text
+CODE_IDENTIFIER_PATTERN = re.compile(
+    r"`[^`]+`|[A-Z][a-z]+[A-Z][a-zA-Z0-9]*|[a-z][a-zA-Z0-9]*[A-Z][a-zA-Z0-9]+"
+)
+
 
 @dataclass
 class ParsedFinding:
@@ -28,6 +33,8 @@ class ParsedFinding:
     evidence: str
     minimal_fix: str
     verification: str
+    file: str = ""        # optional: relative path of the reviewed file
+    line_range: str = ""  # optional: problem line range e.g. "42-58" or "42"
 
 
 def parse_args() -> argparse.Namespace:
@@ -58,6 +65,8 @@ def load_findings_via_lint(module, path: pathlib.Path) -> list[ParsedFinding]:
             evidence=f.evidence,
             minimal_fix=f.minimal_fix,
             verification=f.verification,
+            file=getattr(f, "file", ""),
+            line_range=getattr(f, "line_range", ""),
         )
         for f in findings
     ]
@@ -143,28 +152,23 @@ def match_severity(expected_findings: list[ParsedFinding], actual_findings: list
     return hit, total
 
 
-CODE_IDENTIFIER_PATTERN = re.compile(r"`[^`]+`|[A-Z][a-z]+[A-Z][a-zA-Z0-9]*|[a-z][a-zA-Z0-9]*[A-Z][a-zA-Z0-9]+")
-
-
 def score_actionability(findings: list[ParsedFinding]) -> float:
     if not findings:
         return 0.0
-    scores = []
+    scores: list[float] = []
     for f in findings:
         # S2: word-boundary action word check
         has_action = bool(
             ACTION_WORDS_PATTERN.search(f.minimal_fix) or ACTION_WORDS_PATTERN.search(f.verification)
         )
-        if not (f.minimal_fix.strip() and f.verification.strip()):
+        # S3: code identifier check — fix and verification should reference concrete code
+        has_identifier = bool(
+            CODE_IDENTIFIER_PATTERN.search(f.minimal_fix) or CODE_IDENTIFIER_PATTERN.search(f.verification)
+        )
+        if not (f.minimal_fix.strip() and f.verification.strip() and has_action):
             scores.append(0.0)
-            continue
-        if not has_action:
-            scores.append(0.0)
-            continue
-        # Specificity bonus: action word + code identifier (backtick or CamelCase)
-        combined = f.minimal_fix + " " + f.verification
-        has_identifier = bool(CODE_IDENTIFIER_PATTERN.search(combined))
-        scores.append(1.0 if has_identifier else 0.7)
+        else:
+            scores.append(1.0 if has_identifier else 0.85)
     return safe_ratio(sum(scores), len(scores))
 
 

@@ -1,0 +1,19 @@
+{
+  "summary": "Internally created CoroutineScope with hardcoded Dispatchers.IO leaks coroutines and prevents external lifecycle control.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-K001",
+      "evidence": "`CacheWarmingService` creates `CoroutineScope(Dispatchers.IO)` as a private field; there is no `close()` or `cancel()` method, so coroutines launched via `startWarming` and `startPeriodicRefresh` are never cancelled and leak beyond the service lifecycle.",
+      "minimal_fix": "Accept a `CoroutineScope` via constructor injection instead of creating one internally; implement `Closeable` or provide a `close()` method that cancels the scope.",
+      "verification": "In a test, inject `TestScope`, call `startPeriodicRefresh`, cancel the scope, and assert that `load()` is no longer invoked after cancellation."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-T005",
+      "evidence": "`Dispatchers.IO` is hardcoded in the `CoroutineScope` constructor; tests cannot replace the dispatcher, making it impossible to control coroutine execution timing or use `TestDispatcher`.",
+      "minimal_fix": "Inject a `CoroutineDispatcher` parameter (defaulting to `Dispatchers.IO`) and use `TestDispatcher` in tests.",
+      "verification": "Instantiate `CacheWarmingService` with `StandardTestDispatcher`; call `advanceUntilIdle()` and assert `load()` was called the expected number of times."
+    }
+  ]
+}

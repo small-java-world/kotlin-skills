@@ -5,16 +5,15 @@
       "severity": "high",
       "rule_id": "CC-P003",
       "evidence": "Discount calculation logic is duplicated in createInvoiceTotal and previewInvoiceTotal.",
-      "minimal_fix": "Extract one shared discount calculator function and call it from both methods.",
-      "verification": "Add tests that assert both methods return identical values for the same inputs."
+      "minimal_fix": "Extract one shared `calculateDiscount()` function and call it from both `InvoiceService.createInvoiceTotal()` and `InvoiceService.previewInvoiceTotal()`.",
+      "verification": "Add tests that assert `createInvoiceTotal()` and `previewInvoiceTotal()` return identical values for the same inputs."
     },
     {
       "severity": "medium",
       "rule_id": "CC-T001",
       "evidence": "No regression test currently enforces parity between create and preview logic.",
-      "minimal_fix": "Introduce parameterized parity tests for tier and coupon combinations.",
-      "verification": "Run parameterized tests over representative subtotal and discount combinations."
+      "minimal_fix": "Introduce parameterized parity tests for `InvoiceService` covering tier and coupon combinations.",
+      "verification": "Run parameterized tests over `createInvoiceTotal()` and `previewInvoiceTotal()` with representative subtotal and discount combinations."
     }
   ]
 }
-

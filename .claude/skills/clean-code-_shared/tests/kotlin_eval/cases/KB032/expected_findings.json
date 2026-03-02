@@ -1,0 +1,19 @@
+{
+  "summary": "Side effect inside StateFlow collect causes duplicate audit writes on re-collection, violating CQS.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-K002",
+      "evidence": "`DashboardViewModel` calls `auditLog.recordView()` inside the `collect` lambda of `statsRepo.observe()`; if the collector restarts (e.g., configuration change), the latest StateFlow value is replayed and the audit write executes again, producing duplicates.",
+      "minimal_fix": "Extract the `auditLog.recordView()` call out of the `collect` block; use a separate `onEach` with `distinctUntilChanged` or move the side effect to an explicit command method that is called once per user action.",
+      "verification": "Add a test that collects the flow twice with the same state value and assert `recordView()` is invoked exactly once."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-P005",
+      "evidence": "The `collect` block both updates `_state.value` (query/transform) and calls `auditLog.recordView()` (command/side effect), violating CQS by mixing state observation with mutation.",
+      "minimal_fix": "Separate the state update and the audit logging into distinct coroutines or flows so that each has a single responsibility.",
+      "verification": "Verify that the `collect` block only updates state, and add a separate flow pipeline or method for audit logging."
+    }
+  ]
+}

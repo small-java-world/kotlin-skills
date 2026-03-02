@@ -4,7 +4,7 @@ Difficulty: intermediate
 Source_Refs: kotlinlang/data-classes, kotlinlang/sealed-classes
 
 # Scenario
-A base data class with a mutable var property is inherited by another data class. This breaks the equals/hashCode contract: parent and child instances with the same fields are not equal, and mutable state in a Map key causes silent map corruption.
+A data class with a mutable `var` property is used as a map key, causing silent map corruption when the field is mutated after insertion. Separately, a data class extends an open class, breaking the equals/hashCode contract because the data class only considers its own properties, not the parent's.
 
 # Goal
-Detect CC-K005 (data class contract violation via var and inheritance) and propose sealed class replacement.
+Detect CC-K005 (data class contract violations: var in data class + inheritance breaking equals/hashCode) and propose val-only data class + sealed class replacement.

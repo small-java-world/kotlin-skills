@@ -5,23 +5,22 @@
       "severity": "high",
       "rule_id": "CC-T003",
       "evidence": "syncUsers directly instantiates HttpURLConnection and File writes, preventing isolated unit tests.",
-      "minimal_fix": "Extract HttpClient and FileWriter interfaces and inject implementations.",
-      "verification": "Add unit tests using fake clients and verify body persistence behavior."
+      "minimal_fix": "Extract `HttpClient` and `FileWriter` interfaces and inject implementations into `UserSyncService`.",
+      "verification": "Add unit tests for `UserSyncService.syncUsers()` using fake clients and verify body persistence behavior."
     },
     {
       "severity": "medium",
       "rule_id": "CC-T002",
       "evidence": "Current approach pushes tests toward slow integration-only coverage.",
-      "minimal_fix": "Split fast unit tests for parsing/persistence and limited integration tests for real I/O.",
-      "verification": "Measure test runtime before/after and ensure unit suite remains deterministic."
+      "minimal_fix": "Split `UserSyncService` tests into fast unit tests for parsing/persistence and limited integration tests for real I/O.",
+      "verification": "Measure `UserSyncService` test runtime before/after and ensure unit suite remains deterministic."
     },
     {
       "severity": "medium",
       "rule_id": "CC-P004",
       "evidence": "One method manages transport, serialization boundary, and persistence concern simultaneously.",
-      "minimal_fix": "Separate transport fetch, domain mapping, and persistence writing responsibilities.",
-      "verification": "Run unit tests per extracted component and one end-to-end sync smoke test."
+      "minimal_fix": "Separate `syncUsers()` into transport fetch, domain mapping, and persistence writing responsibilities.",
+      "verification": "Run unit tests per extracted component and one end-to-end `syncUsers()` smoke test."
     }
   ]
 }
-

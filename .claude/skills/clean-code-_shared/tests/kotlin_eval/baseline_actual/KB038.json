@@ -1,0 +1,19 @@
+{
+  "summary": "Data classes inheriting from open class break equals/hashCode contract; parent fields are silently excluded from equality checks.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-K005",
+      "evidence": "`OrderPlaced` and `OrderCancelled` are data classes extending `DomainEvent`; the generated `equals()` and `hashCode()` only consider properties declared in the data class primary constructor, ignoring `type` and `timestamp` from the parent; this causes `EventStore` to silently drop events with the same `orderId` in the `mutableSetOf`.",
+      "minimal_fix": "Replace the `open class DomainEvent` hierarchy with a `sealed class` or `sealed interface` that does not hold state; move `type` and `timestamp` into each data class constructor so they participate in equals/hashCode.",
+      "verification": "Add a test that stores two `OrderPlaced` events with the same `orderId` but different timestamps and assert both are retained in the `EventStore`."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-P001",
+      "evidence": "The `open class` inheritance hierarchy with `when` exhaustiveness checks in `findByOrderId` is fragile; adding a new event type requires updating every `when` block, and the `else -> false` branch silently ignores unknown types.",
+      "minimal_fix": "Replace `open class DomainEvent` with `sealed interface DomainEvent` so the compiler enforces exhaustive `when` expressions and the `else` branch is no longer needed.",
+      "verification": "Remove the `else` branch from `findByOrderId` and verify that the code compiles with exhaustive `when` after switching to sealed interface."
+    }
+  ]
+}

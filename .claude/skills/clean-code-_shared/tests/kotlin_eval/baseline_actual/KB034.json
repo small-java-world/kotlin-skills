@@ -1,0 +1,12 @@
+{
+  "summary": "lateinit var used for properties that may legitimately be absent, risking UninitializedPropertyAccessException instead of compile-time null safety.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-K003",
+      "evidence": "`ConfigurationService` declares `databaseUrl`, `apiKey`, and `cacheHost` as `lateinit var`; the `configure()` method only sets them when the corresponding key exists in the map, so accessing them before the key is provided throws `UninitializedPropertyAccessException` at runtime instead of being caught at compile time.",
+      "minimal_fix": "Replace `lateinit var` declarations with nullable types (`var databaseUrl: String? = null`) and use safe-call operators or `requireNotNull` with a descriptive message at the usage sites.",
+      "verification": "Add a test that calls `getDatabaseConnection()` without setting `database.url` in `configure()` and assert it returns a meaningful error or null instead of throwing `UninitializedPropertyAccessException`."
+    }
+  ]
+}

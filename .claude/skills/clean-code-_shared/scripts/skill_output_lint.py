@@ -54,6 +54,8 @@ class Finding:
     evidence: str
     minimal_fix: str
     verification: str
+    file: str = ""        # optional: relative path of the reviewed file
+    line_range: str = ""  # optional: problem line range e.g. "42-58" or "42"
 
 
 def parse_args() -> argparse.Namespace:
@@ -89,6 +91,8 @@ def parse_json_findings(text: str) -> list[Finding]:
                 evidence=str(item.get("evidence", "")).strip(),
                 minimal_fix=str(item.get("minimal_fix", "")).strip(),
                 verification=str(item.get("verification", "")).strip(),
+                file=str(item.get("file", "")).strip(),
+                line_range=str(item.get("line_range", "")).strip(),
             )
         )
     return parsed
@@ -114,6 +118,8 @@ def _extract_field(block: str, label: str) -> str:
         "Severity",
         "Rule_ID",
         "RuleID",
+        "File",
+        "Line_Range",
         "Evidence",
         "Minimal_Fix",
         "Minimal Fix",
@@ -169,6 +175,8 @@ def parse_markdown_findings(text: str) -> list[Finding]:
                 evidence=_extract_field(block, "Evidence"),
                 minimal_fix=_extract_field(block, "Minimal_Fix") or _extract_field(block, "Minimal Fix"),
                 verification=_extract_field(block, "Verification"),
+                file=_extract_field(block, "File"),
+                line_range=_extract_field(block, "Line_Range"),
             )
         )
     return parsed
@@ -189,6 +197,26 @@ def contains_ambiguous_terms(values: Iterable[str]) -> list[str]:
     return sorted(set(hits))
 
 
+def _extract_code_anchor(evidence: str) -> str:
+    """Extract the first code anchor from evidence text.
+
+    Priority: backtick-enclosed identifier, then CamelCase/camelCase word.
+    Returns empty string if no anchor found.
+    """
+    # Try backtick-enclosed identifier first
+    backtick_match = re.search(r"`([^`]+)`", evidence)
+    if backtick_match:
+        return backtick_match.group(1).strip()
+    # Try CamelCase or camelCase identifier
+    camel_match = re.search(
+        r"[A-Z][a-z]+[A-Z][a-zA-Z0-9]*|[a-z][a-zA-Z0-9]*[A-Z][a-zA-Z0-9]+",
+        evidence,
+    )
+    if camel_match:
+        return camel_match.group(0)
+    return ""
+
+
 def lint_findings(
     findings: list[Finding], *, allow_empty: bool = False
 ) -> tuple[list[str], list[str]]:
@@ -201,7 +229,7 @@ def lint_findings(
         errors.append("No findings found.")
         return errors, warnings
 
-    seen: set[tuple[str, str]] = set()
+    seen: set[tuple] = set()
     for idx, f in enumerate(findings, start=1):
         prefix = f"finding[{idx}]"
 
@@ -237,7 +265,18 @@ def lint_findings(
                 f"{prefix}: verification lacks an action word - add a concrete command or assertion"
             )
 
-        dup_key = (f.rule_id.lower(), re.sub(r"\s+", " ", f.evidence.lower()).strip())
+        # 3-stage dedup: position → code anchor → no merge
+        if f.file and f.line_range:
+            # Priority 1: code position based
+            dup_key = ("pos", f.file.lower(), f.line_range, f.rule_id.lower())
+        else:
+            # Priority 2: code anchor based (rule_id + first identifier from evidence)
+            anchor = _extract_code_anchor(f.evidence)
+            if anchor:
+                dup_key = ("anchor", f.rule_id.lower(), anchor.lower())
+            else:
+                # Priority 3: no merge — use unique key per finding
+                dup_key = ("unique", str(idx))
         if dup_key in seen and all(dup_key):
             warnings.append(f"{prefix}: possible duplicate finding (rule_id + evidence)")
         else:

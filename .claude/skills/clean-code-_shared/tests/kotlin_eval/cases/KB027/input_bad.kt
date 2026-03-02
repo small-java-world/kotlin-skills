@@ -1,24 +1,31 @@
 package eval.kb027
 
-// Simulates a Java library class (as if it were @Nullable String getUserEmail())
-// In real Java interop, the return type would be String! (platform type)
-class JavaUserClient {
-    // @Nullable annotation on Java side — Kotlin sees this as String!
-    fun getUserEmail(userId: String): String? = null // simplified; real Java returns platform type
+/**
+ * Wraps a legacy Java DAO (com.example.legacy.UserDao).
+ * Original Java signature: public String getUserEmail(String userId) — no @Nullable annotation.
+ * Kotlin auto-imports this as String! (platform type).
+ *
+ * Simulated here as returning non-null String to mirror platform type behaviour:
+ * the compiler treats the value as non-null, but Java can return null at runtime.
+ */
+class LegacyUserDao {
+    // Platform type simulation: Java returns String! — Kotlin trusts it as non-null
+    fun findEmailById(id: String): String = throw UnsupportedOperationException("Java stub")
 }
 
-class UserNotificationService(private val javaClient: JavaUserClient) {
+class UserNotificationService(private val dao: LegacyUserDao) {
 
     fun sendWelcomeEmail(userId: String) {
-        // BUG: platform type used directly without null check
-        val email = javaClient.getUserEmail(userId) // type is actually String! in real interop
-        val domain = email!!.substringAfter("@")    // !! bypasses null safety
-        println("Sending to domain: $domain")
+        // BUG: platform-type return used without null boundary;
+        // if Java returns null → NPE on .substringAfter()
+        val email = dao.findEmailById(userId)
+        val domain = email.substringAfter("@")
+        println("Sending welcome email to $domain")
     }
 
     fun getUserInitials(userId: String): String {
-        val email = javaClient.getUserEmail(userId)
-        // BUG: .length accessed without null check, crashes if email is null
+        val email = dao.findEmailById(userId)
+        // BUG: no null guard — .substring crashes if Java side returns null
         return email.substring(0, 2).uppercase()
     }
 }

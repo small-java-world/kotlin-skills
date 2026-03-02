@@ -5,16 +5,15 @@
       "severity": "medium",
       "rule_id": "CC-P005",
       "evidence": "getSessionToken increments refreshCount and mutates cache while presenting a query-like API.",
-      "minimal_fix": "Split cache refresh into explicit command methods and keep read method side-effect free.",
-      "verification": "Add tests asserting repeated reads do not change refreshCount or cache content unexpectedly."
+      "minimal_fix": "Split cache refresh into an explicit `refreshSession()` command and keep `getSessionToken()` side-effect free.",
+      "verification": "Add tests asserting repeated calls to `getSessionToken()` do not change `refreshCount` or `SessionCache` content unexpectedly."
     },
     {
       "severity": "medium",
       "rule_id": "CC-C002",
       "evidence": "Global SessionCache creates hidden shared state coupling across call sites.",
-      "minimal_fix": "Inject a cache abstraction per service instance instead of mutating global singleton state.",
-      "verification": "Run service tests in parallel and confirm no cross-test state contamination."
+      "minimal_fix": "Inject a `SessionCache` abstraction per `SessionService` instance instead of mutating global singleton state.",
+      "verification": "Run `SessionService` tests in parallel and confirm no cross-test `SessionCache` state contamination."
     }
   ]
 }
-

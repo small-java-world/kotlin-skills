@@ -1,0 +1,19 @@
+{
+  "summary": "coroutineScope causes cascading cancellation when one child fails, losing partially-sent notifications.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-K001",
+      "evidence": "`BatchNotificationService.sendAll` and `sendUrgent` use `coroutineScope` to launch parallel children; if any child throws, all sibling coroutines are cancelled, so notifications already in-flight for other users are lost.",
+      "minimal_fix": "Replace `coroutineScope` with `supervisorScope` in both `sendAll` and `sendUrgent` so that a single child failure does not cancel siblings; collect failures into a list and throw an aggregate exception after all children complete.",
+      "verification": "Add a test where one `send()` call throws; assert that `send()` was still invoked for all remaining user IDs."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-T001",
+      "evidence": "There is no test covering partial failure: when one notification fails, the service should still deliver to the remaining recipients, but this behavior is untested.",
+      "minimal_fix": "Add a test that stubs `sender.send()` to throw for one specific userId and verifies that all other userIds still received the notification.",
+      "verification": "Run the partial-failure test and assert the sender was called for every userId except the failing one, and verify the aggregate exception contains the original failure."
+    }
+  ]
+}

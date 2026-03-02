@@ -1,0 +1,12 @@
+{
+  "summary": "Data class copy() bypasses companion factory validation, allowing creation of invalid Email and Money instances.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-K005",
+      "evidence": "`Email` and `Money` data classes enforce invariants in `companion.of()` factory methods, but the auto-generated `copy()` method bypasses all validation; `PaymentService.processRefund` uses `original.copy(amount = refundAmount)` which can create a `Money` with negative amount.",
+      "minimal_fix": "Make the data class constructor `private` (or `internal`) and expose only the validated factory method; alternatively, add an `init` block with the same validation so that `copy()` also enforces invariants.",
+      "verification": "Add a test that calls `Email.of(\"valid@example.com\").copy(address = \"invalid\")` and assert it throws `IllegalArgumentException`."
+    }
+  ]
+}

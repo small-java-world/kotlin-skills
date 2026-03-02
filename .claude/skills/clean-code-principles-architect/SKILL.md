@@ -31,6 +31,10 @@ description: Kotlin/Gradle（Spring Boot Kotlin含む）のコードレビュー
 ## 出力形式
 - 共有の出力コントラクトを使用すること:
 `../clean-code-_shared/references/output_contract.md`
+- レビューで特定のファイル・行に起因する finding は `file`（相対パス）と
+  `line_range`（例: "42-58" or "42"）を含めること。
+- 複数ファイルにまたがる場合は主要ファイルの行範囲を記載すること。
+- コード全体への抽象的な指摘など位置特定が不可能な場合は省略可。
 
 ## 参照
 - `../clean-code-_shared/references/principles_map.md`

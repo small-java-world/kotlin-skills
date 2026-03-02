@@ -1,0 +1,23 @@
+{
+  "summary": "Invalid sample: duplicate findings sharing the same code position.",
+  "findings": [
+    {
+      "severity": "high",
+      "rule_id": "CC-P004",
+      "file": "src/UserService.kt",
+      "line_range": "42-58",
+      "evidence": "UserService performs DB writes and HTTP response formatting in one method.",
+      "minimal_fix": "Extract response mapping into a presenter function.",
+      "verification": "Run existing profile endpoint tests and add a unit test for presenter mapping."
+    },
+    {
+      "severity": "medium",
+      "rule_id": "CC-P004",
+      "file": "src/UserService.kt",
+      "line_range": "42-58",
+      "evidence": "The same method also handles error response serialization alongside domain logic.",
+      "minimal_fix": "Separate error serialization into a dedicated error handler.",
+      "verification": "Run unit tests to verify error responses are still returned correctly."
+    }
+  ]
+}

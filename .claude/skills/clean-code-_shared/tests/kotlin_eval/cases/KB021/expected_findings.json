@@ -5,15 +5,15 @@
       "severity": "high",
       "rule_id": "CC-P006",
       "evidence": "process(d, f, t) and class name BizService hide business meaning; names do not express domain intent.",
-      "minimal_fix": "Rename service/method/parameters to domain terms (e.g., OrderStatusService.resolveStatus(order, isApproved, channel)).",
-      "verification": "Run existing tests and add one naming-focused review checklist to confirm method names describe behavior."
+      "minimal_fix": "Rename `BizService.process()` and parameters to domain terms (e.g., `OrderStatusService.resolveStatus(order, isApproved, channel)`).",
+      "verification": "Run existing tests for `BizService` and add one naming-focused review checklist to confirm method names describe behavior."
     },
     {
       "severity": "medium",
       "rule_id": "CC-P004",
       "evidence": "Boolean flag f switches divergent formatting policies in one method, combining two reasons to change.",
-      "minimal_fix": "Split into two explicit methods for approved/rejected flows or introduce a small strategy object.",
-      "verification": "Add separate tests for each explicit path and verify no flag-based branching remains."
+      "minimal_fix": "Split `BizService.process()` into two explicit methods for approved/rejected flows (e.g., `resolveApproved()`, `resolveRejected()`) or introduce a small strategy object.",
+      "verification": "Add separate tests for each explicit path of `BizService` and verify no flag-based branching remains."
     }
   ]
 }

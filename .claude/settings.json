@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python .claude/hooks/validate-bash.py"
+            "command": "python D:/kotlinskills/.claude/hooks/validate-bash.py"
           }
         ]
       }

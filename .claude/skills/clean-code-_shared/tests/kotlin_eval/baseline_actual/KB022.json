@@ -5,22 +5,22 @@
       "severity": "high",
       "rule_id": "CC-C003",
       "evidence": "update changes persistence structure and visible return behavior in the same step without safety gates.",
-      "minimal_fix": "Split migration into behavior-preserving structural phase first, then separate behavior change behind a feature flag.",
-      "verification": "Run compatibility tests proving old caller behavior is preserved before enabling new behavior."
+      "minimal_fix": "Split `OrderStateMigrationService.update()` into behavior-preserving structural phase first, then separate behavior change behind a feature flag.",
+      "verification": "Run compatibility tests proving `OrderStateMigrationService.update()` old caller behavior is preserved before enabling new behavior."
     },
     {
       "severity": "high",
       "rule_id": "CC-C004",
       "evidence": "Dual-write path has no explicit stage definition, rollback plan, or cleanup criteria.",
-      "minimal_fix": "Define migration stages (prepare, dual-write, read-switch, cleanup) with exit criteria per stage.",
-      "verification": "Add stage-specific checks and confirm each stage passes before moving to the next rollout step."
+      "minimal_fix": "Define migration stages for `OrderStateMigrationService` (prepare, dual-write via `LegacyOrderRepo`/`NewOrderRepo`, read-switch, cleanup) with exit criteria per stage.",
+      "verification": "Add stage-specific checks for `OrderStateMigrationService` and confirm each stage passes before moving to the next rollout step."
     },
     {
       "severity": "medium",
       "rule_id": "CC-P002",
       "evidence": "enableFutureV3Path branch is speculative and not consumed by current requirements.",
-      "minimal_fix": "Remove the speculative branch or keep it behind a documented TODO with trigger conditions.",
-      "verification": "Run a caller search and verify no runtime dependency exists on the removed speculative path."
+      "minimal_fix": "Remove the `enableFutureV3Path` speculative branch from `OrderStateMigrationService.update()` or keep it behind a documented TODO with trigger conditions.",
+      "verification": "Run a caller search for `enableFutureV3Path` and verify no runtime dependency exists on the removed speculative path."
     }
   ]
 }
