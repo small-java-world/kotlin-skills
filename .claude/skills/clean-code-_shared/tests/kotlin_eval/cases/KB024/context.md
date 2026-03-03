@@ -1,7 +1,7 @@
-Case_ID: KB024
-Category: testability
-Difficulty: intermediate
-Source_Refs: kotlinlang/coding-conventions, detekt/style-rules
+case_id: KB024
+category: testability
+difficulty: intermediate
+source_refs: kotlinlang/coding-conventions, detekt/style-rules
 
 # Scenario
 Blocking wrapper uses runBlocking + real delay and encourages sleep-based tests.

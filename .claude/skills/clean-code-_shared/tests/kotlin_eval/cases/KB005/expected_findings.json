@@ -4,7 +4,7 @@
     {
       "severity": "high",
       "rule_id": "CC-C001",
-      "evidence": "cancelOrder directly updates order state, inventory, billing refund, and notification in one method.",
+      "evidence": "`cancelOrder` directly updates order state, inventory, billing refund, and notification in one method.",
       "minimal_fix": "Introduce an orchestration layer in `CancelOrderService.cancelOrder()` with explicit steps and error handling boundaries per dependency (`OrderRepo`, `InventoryRepo`, `BillingClient`, `NotificationClient`).",
       "verification": "Add integration tests for `cancelOrder()` that simulate each dependency failure and verify compensation behavior."
     },

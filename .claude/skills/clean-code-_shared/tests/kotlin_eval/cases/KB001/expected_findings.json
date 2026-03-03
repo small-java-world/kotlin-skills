@@ -4,7 +4,7 @@
     {
       "severity": "high",
       "rule_id": "CC-P004",
-      "evidence": "updateProfile handles input validation, repository writes, audit logging, and HTTP-like response shaping in one method.",
+      "evidence": "`updateProfile` handles input validation, repository writes, audit logging, and HTTP-like response shaping in one method.",
       "minimal_fix": "Extract validation and response mapping into dedicated functions (e.g., `validateInput()`, `toResponse()`) while keeping business flow in `UserProfileController.updateProfile()`.",
       "verification": "Add unit tests for `validateInput` and `toResponse`, then run existing `updateProfile` tests."
     },

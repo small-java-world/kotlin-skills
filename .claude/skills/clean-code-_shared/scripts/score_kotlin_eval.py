@@ -14,6 +14,7 @@ import sys
 from dataclasses import dataclass
 
 # S2: Use word-boundary regex instead of substring matching
+# NOTE: Duplicated from skill_output_lint.py — keep in sync (TODO: extract to shared module)
 ACTION_WORDS_PATTERN = re.compile(
     r"\b(?:add|extract|split|remove|introduce|replace|rename|run|assert|test|verify|"
     r"追加|抽出|分離|削除|置換|実行|検証|確認)\b",
@@ -124,7 +125,7 @@ def evidence_similarity(left: str, right: str) -> float:
     left_tokens = _tokenize(left)
     right_tokens = _tokenize(right)
     if not left_tokens and not right_tokens:
-        return 1.0
+        return 0.0  # Empty evidence is undefined, not similar
     if not left_tokens or not right_tokens:
         return 0.0
 
@@ -166,6 +167,9 @@ def match_severity(expected_findings: list[ParsedFinding], actual_findings: list
         candidates.sort(reverse=True)
         best_score, best_idx = candidates[0]
         # Accept low-overlap matches only when there is one obvious candidate.
+        # Design choice: when only one candidate exists (len==1), we accept it
+        # even at low similarity — this avoids penalizing severity accuracy when
+        # the AI rephrased evidence but correctly identified the same rule.
         if best_score < 0.15 and len(candidates) > 1:
             continue
 
@@ -311,7 +315,10 @@ def main() -> int:
             }
         )
 
-    case_count = len(cases) if cases else 1
+    if not cases:
+        print("ERROR: manifest contains no cases")
+        return 2
+    case_count = len(cases)
     scored_cases = sum(1 for c in per_case if c.get("status") == "scored")
     missing_count = case_count - scored_cases
 
@@ -333,7 +340,8 @@ def main() -> int:
         severity_note = None
     grade = "pass" if total >= 85 else ("warning" if total >= 70 else "fail")
 
-    # Detect gold-vs-gold mode: check if actual files are identical to expected
+    # Detect gold-vs-gold mode: check if actual files are semantically identical to expected
+    # Uses JSON parse comparison for cross-platform reliability (CRLF/LF, indent differences)
     _identical_count = 0
     _checked_count = 0
     for c in cases:
@@ -341,8 +349,13 @@ def main() -> int:
         ep = manifest_path.parent / c["expected_file"]
         if ap.exists() and ep.exists():
             _checked_count += 1
-            if ap.read_bytes() == ep.read_bytes():
-                _identical_count += 1
+            try:
+                actual_data = json.loads(ap.read_text(encoding="utf-8"))
+                expected_data = json.loads(ep.read_text(encoding="utf-8"))
+                if actual_data == expected_data:
+                    _identical_count += 1
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                pass  # Non-JSON or encoding mismatch — treat as not identical
     scoring_mode = "gold-vs-gold" if _checked_count > 0 and _identical_count == _checked_count else "ai-vs-gold"
 
     report: dict[str, object] = {
@@ -364,7 +377,7 @@ def main() -> int:
             "breakdown": {
                 "structure_25": round(structure_points, 2),
                 "rule_f1_35": round(rule_points, 2),
-                "severity_match_15": round(severity_points if severity_total > 0 else 0.0, 2),
+                "severity_match_15": round(severity_points, 2),
                 "actionability_25": round(action_points, 2),
             },
             "raw": {

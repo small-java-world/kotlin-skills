@@ -4,7 +4,7 @@
     {
       "severity": "high",
       "rule_id": "CC-C002",
-      "evidence": "InputNormalizer behavior depends on RuntimeFlags singleton set by AdminApi side effects.",
+      "evidence": "`InputNormalizer` behavior depends on `RuntimeFlags` singleton set by `AdminApi` side effects.",
       "minimal_fix": "Inject strict-mode policy as explicit dependency into `InputNormalizer` instead of reading global `RuntimeFlags` state.",
       "verification": "Add unit tests for `InputNormalizer.normalize()` with strict mode on/off through dependency injection."
     },

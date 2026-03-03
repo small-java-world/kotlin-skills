@@ -4,7 +4,7 @@
     {
       "severity": "high",
       "rule_id": "CC-T005",
-      "evidence": "stream hard-codes delay(1000) and Dispatchers.IO, so tests cannot control scheduling deterministically.",
+      "evidence": "`stream` hard-codes `delay(1000)` and `Dispatchers.IO`, so tests cannot control scheduling deterministically.",
       "minimal_fix": "Inject dispatcher and polling interval (or scheduler abstraction) into `PriceStreamService` and use coroutine test dispatcher in unit tests.",
       "verification": "Run tests with `StandardTestDispatcher` and `advanceUntilIdle` to verify `stream()` emissions without real time waits."
     },

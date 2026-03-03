@@ -1,7 +1,7 @@
-Case_ID: KB006
-Category: change_safety
-Difficulty: intermediate
-Source_Refs: square/okhttp, detekt/style-rules
+case_id: KB006
+category: change_safety
+difficulty: intermediate
+source_refs: square/okhttp, detekt/style-rules
 
 # Scenario
 Retry policy migration combines API refactor and behavior change in the same step.

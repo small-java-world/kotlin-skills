@@ -1,7 +1,7 @@
-Case_ID: KB004
-Category: principles
-Difficulty: intermediate
-Source_Refs: square/okhttp, ktorio/ktor
+case_id: KB004
+category: principles
+difficulty: intermediate
+source_refs: square/okhttp, ktorio/ktor
 
 # Scenario
 Query method mutates shared state and cache as hidden side effects.

@@ -1,7 +1,7 @@
-Case_ID: KB021
-Category: principles
-Difficulty: intermediate
-Source_Refs: spring-petclinic/spring-petclinic-kotlin, kotlinlang/coding-conventions
+case_id: KB021
+category: principles
+difficulty: intermediate
+source_refs: spring-petclinic/spring-petclinic-kotlin, kotlinlang/coding-conventions
 
 # Scenario
 Domain service uses ambiguous names and a boolean flag to switch unrelated behavior.

@@ -1,7 +1,7 @@
-Case_ID: KB012
-Category: testability
-Difficulty: intermediate
-Source_Refs: kotlinlang/coding-conventions, spring-petclinic/spring-petclinic-kotlin
+case_id: KB012
+category: testability
+difficulty: intermediate
+source_refs: kotlinlang/coding-conventions, spring-petclinic/spring-petclinic-kotlin
 
 # Scenario
 CSV parser assumes valid three-column input and has no defensive behavior.

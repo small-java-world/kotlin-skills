@@ -1,7 +1,7 @@
-Case_ID: KB028
-Category: kotlin
-Difficulty: intermediate
-Source_Refs: kotlinlang/scope-functions, jetbrains/kotlin-idioms
+case_id: KB028
+category: kotlin
+difficulty: intermediate
+source_refs: kotlinlang/scope-functions, jetbrains/kotlin-idioms
 
 # Scenario
 A request processing pipeline chains four scope functions (let, run, also, let) in a single expression. The nested receivers make it impossible to determine which object `it` or `this` refers to at any given level.

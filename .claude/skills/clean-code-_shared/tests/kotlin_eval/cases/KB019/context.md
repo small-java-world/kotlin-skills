@@ -1,7 +1,7 @@
-Case_ID: KB019
-Category: testability
-Difficulty: intro
-Source_Refs: kotlinlang/coding-conventions, detekt/style-rules
+case_id: KB019
+category: testability
+difficulty: intro
+source_refs: kotlinlang/coding-conventions, detekt/style-rules
 
 # Scenario
 Token issuance uses wall clock and random source directly inside domain logic.

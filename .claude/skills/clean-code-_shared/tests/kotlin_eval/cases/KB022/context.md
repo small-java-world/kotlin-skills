@@ -1,7 +1,7 @@
-Case_ID: KB022
-Category: change_safety
-Difficulty: advanced
-Source_Refs: spring-petclinic/spring-petclinic-kotlin, square/okhttp
+case_id: KB022
+category: change_safety
+difficulty: advanced
+source_refs: spring-petclinic/spring-petclinic-kotlin, square/okhttp
 
 # Scenario
 Migration mixes behavior change, persistence rewrite, and speculative compatibility branch in one commit.

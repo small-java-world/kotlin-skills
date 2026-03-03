@@ -1,7 +1,7 @@
-Case_ID: KB009
-Category: testability
-Difficulty: intro
-Source_Refs: square/okhttp, kotlinlang/coding-conventions
+case_id: KB009
+category: testability
+difficulty: intro
+source_refs: square/okhttp, kotlinlang/coding-conventions
 
 # Scenario
 Token generation reads wall clock and random sources directly, making tests nondeterministic.

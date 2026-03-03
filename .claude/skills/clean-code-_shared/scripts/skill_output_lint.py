@@ -49,6 +49,9 @@ RULE_ID_PATTERN = re.compile(r"^CC-[PCTK]\d{3}$")
 # F4: Exhaustive allowlist of defined rules (loaded from rules.json or fallback)
 VALID_RULE_IDS = _load_valid_rule_ids()
 
+# L6: Valid line_range format: single line "42" or range "42-58"
+LINE_RANGE_PATTERN = re.compile(r"^\d+(-\d+)?$")
+
 # L5: ACTION_WORDS for verification executability check (word-boundary safe via \b)
 ACTION_WORDS_PATTERN = re.compile(
     r"\b(?:add|extract|split|remove|introduce|replace|rename|run|assert|test|verify|"
@@ -263,6 +266,21 @@ def lint_findings(
                 f"(valid: {', '.join(sorted(VALID_RULE_IDS))})"
             )
 
+        # L6: line_range format validation
+        if f.line_range:
+            lr_match = LINE_RANGE_PATTERN.match(f.line_range)
+            if not lr_match:
+                warnings.append(
+                    f"{prefix}: invalid line_range format '{f.line_range}' (expected '123' or '123-456')"
+                )
+            elif lr_match.group(1):
+                # Semantic check: start <= end
+                parts = f.line_range.split("-")
+                if int(parts[0]) > int(parts[1]):
+                    warnings.append(
+                        f"{prefix}: inverted line_range '{f.line_range}' (start > end)"
+                    )
+
         if not f.evidence:
             errors.append(f"{prefix}: missing evidence")
         if not f.minimal_fix:
@@ -277,8 +295,8 @@ def lint_findings(
 
         # 3-stage dedup: position → code anchor → no merge
         if f.file and f.line_range:
-            # Priority 1: code position based
-            dup_key = ("pos", f.file.lower(), f.line_range, f.rule_id.lower())
+            # Priority 1: code position based (rule_id-agnostic — same location = merge)
+            dup_key = ("pos", f.file.lower(), f.line_range)
         else:
             # Priority 2: code anchor based (rule_id + first identifier from evidence)
             anchor = _extract_code_anchor(f.evidence)
@@ -287,8 +305,11 @@ def lint_findings(
             else:
                 # Priority 3: no merge — use unique key per finding
                 dup_key = ("unique", str(idx))
-        if dup_key in seen and all(dup_key):
-            warnings.append(f"{prefix}: possible duplicate finding (rule_id + evidence)")
+        if dup_key in seen:
+            if dup_key[0] == "pos":
+                warnings.append(f"{prefix}: possible duplicate finding (same file + line_range)")
+            else:
+                warnings.append(f"{prefix}: possible duplicate finding (same rule_id + code anchor)")
         else:
             seen.add(dup_key)
 

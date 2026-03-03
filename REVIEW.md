@@ -4,13 +4,64 @@
 > 第2回レビュー: 2026-03-02
 > 第3回レビュー: 2026-03-02（全修正後）
 > 第4回レビュー: 2026-03-02（アーキテクト全指摘対応）
+> 第5回レビュー: 2026-03-02（ゼロベース再評価）
+> 第6回レビュー: 2026-03-03（攻撃的再評価・全修正）
+> 第7回レビュー: 2026-03-03（ゼロベース攻撃的再評価・全修正）
 > 対象: clean-code-workflow-manager / principles-architect / change-safety-reviewer / testability-optimizer
+
+---
+
+## 第7回レビュー（2026-03-03 ゼロベース攻撃的再評価・全修正後）
+
+### 総合評価: A（設計明確化を全て対応。Critical/High なし）
+
+第6回 A → 第7回 A 維持。攻撃的再評価で9件の指摘を検出し全て対応:
+
+| 指摘 | 対応 |
+|------|------|
+| M1: severity ソートのタイブレーク未定義 | 安定ソート（原順保持）を SKILL.md に明記 |
+| M2: LINE_RANGE の意味的検証なし | start <= end 検証を lint に追加 |
+| M3: 空 evidence の similarity が 1.0 | 0.0 に変更（空は未定義） |
+| M4: gold-vs-gold 検出がバイト比較 | JSON パース比較に変更（CRLF 安全） |
+| L1: 出力形式優先順が未明記 | output_contract.md に JSON 優先を明記 |
+| L2: サブエージェント入力コントラクト未定義 | workflow-manager に入力契約・エラーハンドリング追加 |
+| L3: SKILL.md に rules.json 参照なし | 3サブスキル全てに rules.json + output_contract.md 参照追加 |
+| L4: ACTION_WORDS が2箇所に重複 | TODO コメント追加（共有モジュール化予定） |
+| L5: tee パターンのエッジケース | コメントで既知制限を注記 |
+
+現在: 45 eval ケース、偽陽性8件、score 100.0 (gold-vs-gold)、lint 全 pass。
+
+---
+
+## 第6回レビュー（2026-03-03 攻撃的再評価・全修正後）
+
+### 総合評価: A（仕様-実装整合性・セキュリティ・データ品質を全面改善）
+
+第5回 A → 第6回 A（維持）。攻撃的観点で13件の新規指摘を検出し全て対応:
+
+| 指摘 | 対応 |
+|------|------|
+| C1: dedup Priority 1 の rule_id 仕様-実装矛盾 | lint.py から rule_id を除外（仕様に合致） |
+| H1: `all(dup_key)` ロジックバグ | 条件削除（`dup_key in seen` のみに） |
+| H2: git push `-f` 未ブロック | `-f` / `--force-with-lease` パターン追加 |
+| H3: 相対パスリダイレクト未ブロック | `> file` パターン追加 |
+| H4: `git checkout --` 過剰ブロック | `-f` / `--force` のみブロックに変更 |
+| H5: 空マニフェスト許容 | エラー終了に変更 |
+| M1: KB001-KB024 バッククォート未統一 | 18ファイル全 evidence にバッククォート追加 |
+| M2: `killall` 未ブロック | ブロックリスト追加 |
+| M3: single-candidate match 挙動未文書化 | コメント追加 |
+| M4: severity ソート順文字列依存 | SKILL.md に数値順序を明示 |
+| M5: リファレンスファイル説明不足 | CLAUDE.md に一覧表追加 |
+| L1: context.md Case_ID/case_id 混在 | 全29ファイル snake_case に統一 |
+| L2: line_range フォーマット未検証 | `LINE_RANGE_PATTERN` 追加 |
+
+現在: 45 eval ケース、偽陽性8件、score 100.0 (gold-vs-gold)、lint 全 pass。
 
 ---
 
 ## 第4回レビュー（2026-03-02 アーキテクト全指摘対応後）
 
-### 総合評価: A（本番運用可能な品質。構造的課題も解消）
+### 総合評価: ~~A~~ → 第6回で A 維持
 
 第3回 A- → 第4回 A。以下を全て対応:
 

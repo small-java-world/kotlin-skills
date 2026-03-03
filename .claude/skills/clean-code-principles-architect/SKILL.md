@@ -37,5 +37,7 @@ description: Kotlin/Gradle（Spring Boot Kotlin含む）のコードレビュー
 - コード全体への抽象的な指摘など位置特定が不可能な場合は省略可。
 
 ## 参照
-- `../clean-code-_shared/references/principles_map.md`
-- `../clean-code-_shared/references/anti_patterns.md`
+- `../clean-code-_shared/references/rules.json` — ルール定義の正（20ルール）
+- `../clean-code-_shared/references/output_contract.md` — 出力フォーマット仕様
+- `../clean-code-_shared/references/principles_map.md` — 原則ルール詳細（CC-P 用）
+- `../clean-code-_shared/references/anti_patterns.md` — テスタビリティ反パターン（参考）

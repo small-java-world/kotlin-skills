@@ -4,7 +4,7 @@
     {
       "severity": "high",
       "rule_id": "CC-P003",
-      "evidence": "Discount calculation logic is duplicated in createInvoiceTotal and previewInvoiceTotal.",
+      "evidence": "Discount calculation logic is duplicated in `createInvoiceTotal` and `previewInvoiceTotal`.",
       "minimal_fix": "Extract one shared `calculateDiscount()` function and call it from both `InvoiceService.createInvoiceTotal()` and `InvoiceService.previewInvoiceTotal()`.",
       "verification": "Add tests that assert `createInvoiceTotal()` and `previewInvoiceTotal()` return identical values for the same inputs."
     },

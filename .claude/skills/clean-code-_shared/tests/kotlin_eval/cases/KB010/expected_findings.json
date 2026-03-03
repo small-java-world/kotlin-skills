@@ -4,7 +4,7 @@
     {
       "severity": "high",
       "rule_id": "CC-T003",
-      "evidence": "syncUsers directly instantiates HttpURLConnection and File writes, preventing isolated unit tests.",
+      "evidence": "`syncUsers` directly instantiates `HttpURLConnection` and File writes, preventing isolated unit tests.",
       "minimal_fix": "Extract `HttpClient` and `FileWriter` interfaces and inject implementations into `UserSyncService`.",
       "verification": "Add unit tests for `UserSyncService.syncUsers()` using fake clients and verify body persistence behavior."
     },

@@ -4,7 +4,7 @@
     {
       "severity": "high",
       "rule_id": "CC-C003",
-      "evidence": "update changes persistence structure and visible return behavior in the same step without safety gates.",
+      "evidence": "`update` changes persistence structure and visible return behavior in the same step without safety gates.",
       "minimal_fix": "Split `OrderStateMigrationService.update()` into behavior-preserving structural phase first, then separate behavior change behind a feature flag.",
       "verification": "Run compatibility tests proving `OrderStateMigrationService.update()` old caller behavior is preserved before enabling new behavior."
     },
@@ -18,7 +18,7 @@
     {
       "severity": "medium",
       "rule_id": "CC-P002",
-      "evidence": "enableFutureV3Path branch is speculative and not consumed by current requirements.",
+      "evidence": "`enableFutureV3Path` branch is speculative and not consumed by current requirements.",
       "minimal_fix": "Remove the `enableFutureV3Path` speculative branch from `OrderStateMigrationService.update()` or keep it behind a documented TODO with trigger conditions.",
       "verification": "Run a caller search for `enableFutureV3Path` and verify no runtime dependency exists on the removed speculative path."
     }

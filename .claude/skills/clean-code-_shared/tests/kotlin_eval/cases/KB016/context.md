@@ -1,7 +1,7 @@
-Case_ID: KB016
-Category: principles
-Difficulty: intermediate
-Source_Refs: spring-petclinic/spring-petclinic-kotlin
+case_id: KB016
+category: principles
+difficulty: intermediate
+source_refs: spring-petclinic/spring-petclinic-kotlin
 
 # KB016 Context
 

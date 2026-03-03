@@ -1,7 +1,7 @@
-Case_ID: KB017
-Category: principles
-Difficulty: intermediate
-Source_Refs: ktorio/ktor
+case_id: KB017
+category: principles
+difficulty: intermediate
+source_refs: ktorio/ktor
 
 # KB017 Context
 

@@ -1,7 +1,7 @@
-Case_ID: KB005
-Category: change_safety
-Difficulty: intro
-Source_Refs: spring-petclinic/spring-petclinic-kotlin, ktorio/ktor
+case_id: KB005
+category: change_safety
+difficulty: intro
+source_refs: spring-petclinic/spring-petclinic-kotlin, ktorio/ktor
 
 # Scenario
 Single operation performs multiple side effects across repositories and external clients.

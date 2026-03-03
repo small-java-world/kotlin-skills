@@ -21,6 +21,7 @@ def main() -> int:
         "bad_01_missing_evidence.json": 2,
         "bad_02_missing_severity.md": 2,
         "bad_03_ambiguous_duplicate.json": 1,
+        "bad_04_position_duplicate.json": 1,
     }
 
     failed: list[str] = []

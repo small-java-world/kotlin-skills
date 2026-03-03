@@ -1,7 +1,7 @@
-Case_ID: KB001
-Category: principles
-Difficulty: intro
-Source_Refs: ktorio/ktor, kotlinlang/coding-conventions
+case_id: KB001
+category: principles
+difficulty: intro
+source_refs: ktorio/ktor, kotlinlang/coding-conventions
 
 # Scenario
 Controller method mixes validation, persistence, audit logging, and response formatting.

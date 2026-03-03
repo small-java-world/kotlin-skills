@@ -4,7 +4,7 @@
     {
       "severity": "high",
       "rule_id": "CC-T001",
-      "evidence": "parse indexes fixed positions without validation for missing columns or extra separators.",
+      "evidence": "`parse` indexes fixed positions without validation for missing columns or extra separators.",
       "minimal_fix": "Add explicit input validation to `CsvUserParser.parse()` and return a typed parse result with failure states.",
       "verification": "Add boundary tests for `CsvUserParser.parse()` with empty line, 2 columns, 3 columns, and malformed quoted values; run and verify all pass."
     },

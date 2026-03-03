@@ -1,7 +1,7 @@
-Case_ID: KB003
-Category: principles
-Difficulty: intermediate
-Source_Refs: square/okhttp, detekt/style-rules
+case_id: KB003
+category: principles
+difficulty: intermediate
+source_refs: square/okhttp, detekt/style-rules
 
 # Scenario
 Business discount rules are duplicated in creation and preview paths.

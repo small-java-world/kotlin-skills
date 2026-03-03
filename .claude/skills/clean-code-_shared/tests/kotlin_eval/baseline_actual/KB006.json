@@ -4,14 +4,14 @@
     {
       "severity": "high",
       "rule_id": "CC-C003",
-      "evidence": "execute introduces new branching while policy semantics change simultaneously.",
+      "evidence": "`execute` introduces new branching while policy semantics change simultaneously.",
       "minimal_fix": "Split `HttpExecutor.execute()` into two commits: first refactor to one policy interface, then apply retry behavior update.",
       "verification": "Run old behavior baseline tests after refactor-only commit for `HttpExecutor`, then run policy delta tests."
     },
     {
       "severity": "medium",
       "rule_id": "CC-C004",
-      "evidence": "No explicit migration phase exists between RetryPolicyV1 and RetryPolicyV2.",
+      "evidence": "No explicit migration phase exists between `RetryPolicyV1` and `RetryPolicyV2`.",
       "minimal_fix": "Introduce a compatibility adapter that routes both `RetryPolicyV1` and `RetryPolicyV2` behind one stable contract.",
       "verification": "Add compatibility tests for `RetryPolicyV1.shouldRetry()` and `RetryPolicyV2.shouldRetryWithBackoff()` during migration window."
     },

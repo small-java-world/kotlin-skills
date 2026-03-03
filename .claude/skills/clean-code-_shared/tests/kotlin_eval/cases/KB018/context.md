@@ -1,7 +1,7 @@
-Case_ID: KB018
-Category: testability
-Difficulty: intro
-Source_Refs: kotlinlang/coding-conventions
+case_id: KB018
+category: testability
+difficulty: intro
+source_refs: kotlinlang/coding-conventions
 
 # KB018 Context
 

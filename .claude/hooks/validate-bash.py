@@ -22,14 +22,15 @@ BLOCKED_PATTERNS = [
     r"\brm\s+-[rf]",
     r"\brmdir\b",
     r"\btruncate\b",
-    # Dangerous redirects (overwrite)
-    r">\s*/(?!dev/null)",          # redirect to real paths (allow /dev/null)
-    r"\btee\b(?!.*--append)",      # tee without --append overwrites
+    # Dangerous redirects (overwrite) — block both absolute and relative paths
+    r"(?<!>)>\s*[^>&\s/]",          # single > to relative path (e.g. > file); allows >> (append)
+    r">\s*/(?!dev/null)",          # redirect to absolute path (allow /dev/null)
+    r"\btee\b(?!.*--append)",      # tee without --append overwrites (NOTE: lookahead scans full string; edge case with chained commands)
     # Git destructive ops
-    r"\bgit\s+push\s+.*--force",
+    r"\bgit\s+push\s+.*(?:--force(?:-with-lease)?|-f\b)",
     r"\bgit\s+reset\s+--hard",
     r"\bgit\s+clean\s+-[fd]",
-    r"\bgit\s+checkout\s+--\s",
+    r"\bgit\s+checkout\s+(?:-f\b|--force\b)",
     r"\bgit\s+branch\s+-[Dd]",
     # Permission / ownership changes
     r"\bchmod\b",
@@ -37,6 +38,7 @@ BLOCKED_PATTERNS = [
     # Process termination
     r"\bkill\b",
     r"\bpkill\b",
+    r"\bkillall\b",
     # Disk / format operations
     r"\bdd\s+",
     r"\bmkfs\b",

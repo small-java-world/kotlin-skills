@@ -4,7 +4,7 @@
     {
       "severity": "high",
       "rule_id": "CC-T002",
-      "evidence": "GlobalScope with delay-based completion creates timing-dependent assertions.",
+      "evidence": "`GlobalScope` with delay-based completion creates timing-dependent assertions.",
       "minimal_fix": "Inject `CoroutineScope` and `CoroutineDispatcher` into `processAsync()` so tests can use a controlled `TestScope` scheduler.",
       "verification": "Add coroutine `TestScope`-based tests for `processAsync()` without `Thread.sleep` or real delays."
     },
@@ -18,7 +18,7 @@
     {
       "severity": "medium",
       "rule_id": "CC-T004",
-      "evidence": "Any test for processAsync requires Thread.sleep or runBlocking with arbitrary delays; assertions cannot express 'event was processed' without timing assumptions.",
+      "evidence": "Any test for `processAsync` requires `Thread.sleep` or `runBlocking` with arbitrary delays; assertions cannot express 'event was processed' without timing assumptions.",
       "minimal_fix": "After injecting a test dispatcher, write tests named by behavior (e.g., `processed event appears in results after advancing coroutine`) with deterministic assertions.",
       "verification": "Verify test names describe behavior and assertions use `advanceUntilIdle` instead of `Thread.sleep`."
     }

@@ -1,5 +1,11 @@
 # 出力コントラクト
 
+## 出力形式の優先順
+
+- **JSON を優先する**。プログラム的な lint 検証・スコアリング・重複排除に最適化されている。
+- Markdown は人間向けのデバッグ用途でのみサポートする。
+- フィールド名は小文字（`severity`, `rule_id`, `file`, `line_range`, `evidence`, `minimal_fix`, `verification`）を使用する。
+
 ## JSON スキーマ（実用的なコントラクト）
 
 ```json

@@ -4,21 +4,21 @@
     {
       "severity": "high",
       "rule_id": "CC-C003",
-      "evidence": "resolveDisplay mixes three intents in one method: V2 title-case formatting (replaceFirstChar), V1-to-V2 fallback routing (findV2/findV1 branching), and the method's own signature change — as the inline comment on line 29 confirms, these should have been separate steps.",
+      "evidence": "`resolveDisplay` mixes three intents in one method: V2 title-case formatting (`replaceFirstChar`), V1-to-V2 fallback routing (`findV2`/`findV1` branching), and the method's own signature change.",
       "minimal_fix": "Split `resolveDisplay()` into two commits: first rename-only refactor preserving exact output, then a separate commit adding V2 `replaceFirstChar` title-case formatting.",
       "verification": "Run `DisplayNameService` tests after the rename-only commit and assert identical outputs before proceeding to the behavior commit."
     },
     {
       "severity": "high",
       "rule_id": "CC-C004",
-      "evidence": "UserRepository.save() writes to both v1Store and v2Store (lines 14-17), while findV1/findV2 expose both schemas with no migration phase boundary — callers have no contract for when v1Store reads become obsolete.",
+      "evidence": "`UserRepository.save()` writes to both `v1Store` and `v2Store`, while `findV1`/`findV2` expose both schemas with no migration phase boundary.",
       "minimal_fix": "Define explicit migration phases: (1) dual-write window with parity tests, (2) V2-read cutover, (3) V1-write removal with a deletion PR checklist.",
       "verification": "Add parity tests asserting `findV1()` and `findV2()` return equivalent display names for all saved users before entering the cutover phase."
     },
     {
       "severity": "medium",
       "rule_id": "CC-P002",
-      "evidence": "getDisplayName is @Deprecated with no callers, but remains in the codebase indefinitely.",
+      "evidence": "`getDisplayName` is @Deprecated with no callers, but remains in the codebase indefinitely.",
       "minimal_fix": "Remove `getDisplayName()` after confirming zero call sites via a grep or IDE find-usages check.",
       "verification": "Run a full project build and verify no compilation errors or unresolved references after `getDisplayName()` deletion."
     },
