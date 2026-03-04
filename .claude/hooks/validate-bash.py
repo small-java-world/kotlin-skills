@@ -29,7 +29,7 @@ BLOCKED_PATTERNS = [
     # Git destructive ops
     r"\bgit\s+push\s+.*(?:--force(?:-with-lease)?|-f\b)",
     r"\bgit\s+reset\s+--hard",
-    r"\bgit\s+clean\s+-[fd]",
+    r"\bgit\s+clean\s+-[fdx]",
     r"\bgit\s+checkout\s+(?:-f\b|--force\b)",
     r"\bgit\s+branch\s+-[Dd]",
     # Permission / ownership changes

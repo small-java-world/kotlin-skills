@@ -121,7 +121,7 @@ def _extract_code_anchors(text: str) -> set[str]:
 
 
 def evidence_similarity(left: str, right: str) -> float:
-    """Weighted Jaccard: code anchors count 3x more than plain tokens."""
+    """Weighted Jaccard: code anchors count 1.5x more than plain tokens (0.6 vs 0.4 weight)."""
     left_tokens = _tokenize(left)
     right_tokens = _tokenize(right)
     if not left_tokens and not right_tokens:
@@ -231,11 +231,10 @@ def main() -> int:
 
     structure_score_sum = 0.0
     rule_f1_sum = 0.0
-    rule_cases = 0
     severity_hit = 0
     severity_total = 0
+    total_expected_rule_count = 0
     action_sum = 0.0
-    action_cases = 0
 
     per_case: list[dict[str, object]] = []
 
@@ -255,12 +254,14 @@ def main() -> int:
             per_case.append({"case_id": case_id, "status": "missing_actual"})
             structure_score_sum += 0.0
             rule_f1_sum += 0.0
-            rule_cases += 1
             action_sum += 0.0
-            action_cases += 1
             continue
 
-        expected_findings_raw = json.loads(expected_path.read_text(encoding="utf-8")).get("findings", [])
+        expected_json = json.loads(expected_path.read_text(encoding="utf-8"))
+        if "findings" not in expected_json:
+            print(f"ERROR: expected file missing 'findings' key: {expected_path}")
+            return 2
+        expected_findings_raw = expected_json["findings"]
         expected_findings = parse_expected_findings(expected_findings_raw)
         allow_empty = case.get("allow_empty_findings", False) or len(expected_findings) == 0
 
@@ -285,7 +286,7 @@ def main() -> int:
         # S1: F1-based rule matching
         rule_f1, rule_detail = score_rule_f1(expected_rules, actual_rules)
         rule_f1_sum += rule_f1
-        rule_cases += 1
+        total_expected_rule_count += len(expected_rules)
 
         # Severity match on aligned findings (rule_id + evidence similarity).
         case_hit, case_total = match_severity(expected_findings, actual_findings)
@@ -300,7 +301,6 @@ def main() -> int:
         else:
             action_case = score_actionability(actual_findings)
         action_sum += action_case
-        action_cases += 1
 
         per_case.append(
             {
@@ -330,32 +330,45 @@ def main() -> int:
     # Severity scoring: if no matched findings exist, severity gets 0 (not rescaled)
     severity_points = 15.0 * safe_ratio(severity_hit, severity_total) if severity_total > 0 else 0.0
     total = structure_points + rule_points + severity_points + action_points
-    # Cap at 100 for cases where all findings are false-positive (no severity to match)
     if severity_total == 0 and scored_cases > 0:
-        # All cases had empty expected or no rule overlap — severity is N/A, award full 15
-        severity_points = 15.0
-        total = structure_points + rule_points + severity_points + action_points
-        severity_note = "severity_all_empty_or_no_overlap"
+        if total_expected_rule_count == 0:
+            # All expected findings were empty (false-positive corpus) — severity is N/A, award full 15
+            severity_points = 15.0
+            total = structure_points + rule_points + severity_points + action_points
+            severity_note = "severity_all_empty_findings"
+        else:
+            # Expected findings exist but AI produced no matching rule_ids — do not award
+            severity_note = "severity_no_rule_overlap"
     else:
         severity_note = None
     grade = "pass" if total >= 85 else ("warning" if total >= 70 else "fail")
 
     # Detect gold-vs-gold mode: check if actual files are semantically identical to expected
-    # Uses JSON parse comparison for cross-platform reliability (CRLF/LF, indent differences)
+    # JSON files use parse comparison (cross-platform CRLF/LF, indent differences).
+    # Markdown files use text comparison with normalized line endings.
     _identical_count = 0
     _checked_count = 0
     for c in cases:
-        ap = actual_dir / f"{c['case_id']}.json"
+        case_id = c["case_id"]
+        ap_json = actual_dir / f"{case_id}.json"
+        ap_md = actual_dir / f"{case_id}.md"
         ep = manifest_path.parent / c["expected_file"]
-        if ap.exists() and ep.exists():
+        if ap_json.exists() and ep.exists():
             _checked_count += 1
             try:
-                actual_data = json.loads(ap.read_text(encoding="utf-8"))
+                actual_data = json.loads(ap_json.read_text(encoding="utf-8"))
                 expected_data = json.loads(ep.read_text(encoding="utf-8"))
                 if actual_data == expected_data:
                     _identical_count += 1
             except (json.JSONDecodeError, UnicodeDecodeError):
                 pass  # Non-JSON or encoding mismatch — treat as not identical
+        elif ap_md.exists() and ep.exists():
+            _checked_count += 1
+            try:
+                if ap_md.read_text(encoding="utf-8").replace("\r\n", "\n") == ep.read_text(encoding="utf-8").replace("\r\n", "\n"):
+                    _identical_count += 1
+            except UnicodeDecodeError:
+                pass
     scoring_mode = "gold-vs-gold" if _checked_count > 0 and _identical_count == _checked_count else "ai-vs-gold"
 
     report: dict[str, object] = {

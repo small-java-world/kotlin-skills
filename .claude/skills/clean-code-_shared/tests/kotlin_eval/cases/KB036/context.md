@@ -7,4 +7,4 @@ source_refs: kotlinlang/scope-functions, jetbrains/kotlin-idioms
 A request builder chains three scope functions (`apply`, `also`, `let`) in sequence, making the receiver context ambiguous and the code difficult to follow.
 
 # Goal
-Detect CC-K004 (excessive scope function chaining) and CC-P006 (ambiguous `it` receiver).
+Detect CC-K004 (excessive scope function chaining) and CC-P001 (ambiguous implicit receiver adds accidental complexity).

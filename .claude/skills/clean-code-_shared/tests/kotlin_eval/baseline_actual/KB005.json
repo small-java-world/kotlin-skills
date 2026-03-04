@@ -10,9 +10,9 @@
     },
     {
       "severity": "high",
-      "rule_id": "CC-C003",
-      "evidence": "Behavior and coordination logic are tightly coupled, making partial rollback difficult.",
-      "minimal_fix": "Split `cancelOrder()` into idempotent step functions (e.g., `cancelOrderRecord()`, `restockInventory()`, `refundBilling()`) and sequence them through a workflow coordinator.",
+      "rule_id": "CC-C002",
+      "evidence": "The ordering dependency and compensation logic between `orderRepo.cancel`, `inventoryRepo.restock`, `billingClient.refund`, and `notificationClient.send` are hidden inside `cancelOrder()`; if `billingClient.refund` fails, it is not obvious from the signature that inventory has already been restocked, making partial rollback impact invisible.",
+      "minimal_fix": "Split `cancelOrder()` into idempotent step functions (e.g., `cancelOrderRecord()`, `restockInventory()`, `refundBilling()`) and sequence them through a workflow coordinator with explicit compensation logic.",
       "verification": "Run step-level tests for `CancelOrderService` retry and duplicate execution safety."
     },
     {

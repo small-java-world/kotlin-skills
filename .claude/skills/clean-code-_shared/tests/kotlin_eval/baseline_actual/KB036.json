@@ -10,8 +10,8 @@
     },
     {
       "severity": "low",
-      "rule_id": "CC-P006",
-      "evidence": "The nested `body?.let { ... }` inside the outer `apply` block uses `it` to refer to the body string, while the outer `also` and `let` use `it` to refer to the `HttpRequest`; the overloaded meaning of `it` reduces readability.",
+      "rule_id": "CC-P001",
+      "evidence": "The nested `body?.let { ... }` inside the outer `apply` block uses `it` to refer to the body string, while the outer `also` and `let` use `it` to refer to the `HttpRequest`; the overloaded implicit receiver adds accidental complexity and reduces readability.",
       "minimal_fix": "Replace the inner `let` with a named parameter (e.g., `body?.let { content -> ... }`) to distinguish it from the outer `it` references.",
       "verification": "Review the refactored code and verify that each `it` reference has an unambiguous single referent."
     }
