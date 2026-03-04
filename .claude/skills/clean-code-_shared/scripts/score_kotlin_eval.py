@@ -263,6 +263,7 @@ def main() -> int:
         expected_findings_raw = expected_json["findings"]
         expected_findings = parse_expected_findings(expected_findings_raw)
         allow_empty = case.get("allow_empty_findings", False) or len(expected_findings) == 0
+        expected_rules = [f.rule_id for f in expected_findings if f.rule_id]
 
         lint_cmd = [sys.executable, str(lint_script), "--input", str(actual_path), "--profile", "clean-code"]
         if allow_empty:
@@ -297,7 +298,6 @@ def main() -> int:
 
         actual_findings = load_findings_via_lint(lint_module, actual_path)
 
-        expected_rules = [f.rule_id for f in expected_findings if f.rule_id]
         actual_rules = [f.rule_id for f in actual_findings if f.rule_id]
 
         # S1: F1-based rule matching
