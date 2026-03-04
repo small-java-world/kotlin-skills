@@ -166,11 +166,10 @@ def match_severity(expected_findings: list[ParsedFinding], actual_findings: list
 
         candidates.sort(reverse=True)
         best_score, best_idx = candidates[0]
-        # Accept low-overlap matches only when there is one obvious candidate.
-        # Design choice: when only one candidate exists (len==1), we accept it
-        # even at low similarity — this avoids penalizing severity accuracy when
-        # the AI rephrased evidence but correctly identified the same rule.
-        if best_score < 0.15 and len(candidates) > 1:
+        # Require minimum similarity regardless of candidate count.
+        # rule_id-only match with no evidence overlap likely points to a different
+        # problem under the same rule, not the same finding rephrased.
+        if best_score < 0.15:
             continue
 
         unmatched_actual.remove(best_idx)
@@ -278,6 +277,24 @@ def main() -> int:
         structure_case = 1.0 if lint_code == 0 else (0.5 if lint_code == 1 else 0.0)
         structure_score_sum += structure_case
 
+        # lint ERROR (exit 2) = structurally broken output; freeze other axes at 0
+        if lint_code == 2:
+            total_expected_rule_count += len(expected_rules)
+            per_case.append(
+                {
+                    "case_id": case_id,
+                    "status": "scored",
+                    "lint_code": lint_code,
+                    "structure_case_score": structure_case,
+                    "expected_rule_count": len(expected_rules),
+                    "actual_rule_count": 0,
+                    "rule_f1_detail": {"precision": 0.0, "recall": 0.0, "f1": 0.0},
+                    "actionability_case_score": 0.0,
+                    "note": "lint_error_axes_frozen",
+                }
+            )
+            continue
+
         actual_findings = load_findings_via_lint(lint_module, actual_path)
 
         expected_rules = [f.rule_id for f in expected_findings if f.rule_id]
@@ -365,9 +382,16 @@ def main() -> int:
         elif ap_md.exists() and ep.exists():
             _checked_count += 1
             try:
-                if ap_md.read_text(encoding="utf-8").replace("\r\n", "\n") == ep.read_text(encoding="utf-8").replace("\r\n", "\n"):
+                # expected is always JSON; compare findings semantically via parsed rule_ids
+                actual_findings_md = load_findings_via_lint(lint_module, ap_md)
+                expected_findings_gvg = parse_expected_findings(
+                    json.loads(ep.read_text(encoding="utf-8")).get("findings", [])
+                )
+                actual_rules_md = sorted(f.rule_id for f in actual_findings_md)
+                expected_rules_gvg = sorted(f.rule_id for f in expected_findings_gvg)
+                if actual_rules_md == expected_rules_gvg and actual_rules_md:
                     _identical_count += 1
-            except UnicodeDecodeError:
+            except (json.JSONDecodeError, UnicodeDecodeError, Exception):
                 pass
     scoring_mode = "gold-vs-gold" if _checked_count > 0 and _identical_count == _checked_count else "ai-vs-gold"
 
