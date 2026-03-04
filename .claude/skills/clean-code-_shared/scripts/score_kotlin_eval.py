@@ -210,9 +210,37 @@ def parse_expected_findings(raw_findings: list[dict[str, str]]) -> list[ParsedFi
                 evidence=str(finding.get("evidence", "")).strip(),
                 minimal_fix=str(finding.get("minimal_fix", "")).strip(),
                 verification=str(finding.get("verification", "")).strip(),
+                file=str(finding.get("file", "")).strip(),
+                line_range=str(finding.get("line_range", "")).strip(),
             )
         )
     return parsed
+
+
+def _normalize_space(text: str) -> str:
+    return re.sub(r"\s+", " ", text.strip())
+
+
+def _normalize_path(path_text: str) -> str:
+    return _normalize_space(path_text).replace("\\", "/").lower()
+
+
+def findings_signature(findings: list[ParsedFinding]) -> tuple[tuple[str, ...], ...]:
+    """Canonical signature for semantic equality across JSON/Markdown outputs."""
+    normalized: list[tuple[str, ...]] = []
+    for f in findings:
+        normalized.append(
+            (
+                f.rule_id.strip().upper(),
+                f.severity.strip().lower(),
+                _normalize_path(f.file),
+                _normalize_space(f.line_range),
+                _normalize_space(f.evidence),
+                _normalize_space(f.minimal_fix),
+                _normalize_space(f.verification),
+            )
+        )
+    return tuple(sorted(normalized))
 
 
 def main() -> int:
@@ -360,9 +388,8 @@ def main() -> int:
         severity_note = None
     grade = "pass" if total >= 85 else ("warning" if total >= 70 else "fail")
 
-    # Detect gold-vs-gold mode: check if actual files are semantically identical to expected
-    # JSON files use parse comparison (cross-platform CRLF/LF, indent differences).
-    # Markdown files use text comparison with normalized line endings.
+    # Detect gold-vs-gold mode by semantic findings comparison (format-agnostic).
+    # This allows JSON expected vs Markdown actual when findings are equivalent.
     _identical_count = 0
     _checked_count = 0
     for c in cases:
@@ -373,25 +400,28 @@ def main() -> int:
         if ap_json.exists() and ep.exists():
             _checked_count += 1
             try:
-                actual_data = json.loads(ap_json.read_text(encoding="utf-8"))
-                expected_data = json.loads(ep.read_text(encoding="utf-8"))
-                if actual_data == expected_data:
+                expected_payload = json.loads(ep.read_text(encoding="utf-8"))
+                expected_raw = expected_payload.get("findings")
+                if not isinstance(expected_raw, list):
+                    raise ValueError("expected file must contain findings[]")
+                expected_findings_gvg = parse_expected_findings(expected_raw)
+                actual_findings_json = load_findings_via_lint(lint_module, ap_json)
+                if findings_signature(actual_findings_json) == findings_signature(expected_findings_gvg):
                     _identical_count += 1
-            except (json.JSONDecodeError, UnicodeDecodeError):
-                pass  # Non-JSON or encoding mismatch — treat as not identical
+            except (json.JSONDecodeError, UnicodeDecodeError, ValueError):
+                pass  # Parse/contract mismatch — treat as not identical
         elif ap_md.exists() and ep.exists():
             _checked_count += 1
             try:
-                # expected is always JSON; compare findings semantically via parsed rule_ids
+                expected_payload = json.loads(ep.read_text(encoding="utf-8"))
+                expected_raw = expected_payload.get("findings")
+                if not isinstance(expected_raw, list):
+                    raise ValueError("expected file must contain findings[]")
+                expected_findings_gvg = parse_expected_findings(expected_raw)
                 actual_findings_md = load_findings_via_lint(lint_module, ap_md)
-                expected_findings_gvg = parse_expected_findings(
-                    json.loads(ep.read_text(encoding="utf-8")).get("findings", [])
-                )
-                actual_rules_md = sorted(f.rule_id for f in actual_findings_md)
-                expected_rules_gvg = sorted(f.rule_id for f in expected_findings_gvg)
-                if actual_rules_md == expected_rules_gvg and actual_rules_md:
+                if findings_signature(actual_findings_md) == findings_signature(expected_findings_gvg):
                     _identical_count += 1
-            except (json.JSONDecodeError, UnicodeDecodeError, Exception):
+            except (json.JSONDecodeError, UnicodeDecodeError, ValueError):
                 pass
     scoring_mode = "gold-vs-gold" if _checked_count > 0 and _identical_count == _checked_count else "ai-vs-gold"
 
